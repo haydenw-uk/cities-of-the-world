@@ -5,7 +5,44 @@
 #include <iostream>
 #include <cstring>
 
-// class Coordinates
+// class Coordinate
+class Coordinate {
+private:
+    const double PI = 3.14159265358979323846;
+    const double EARTH_RADIUS = 6371.0; // Earth's radius in kilometers
+
+    double latitude;
+    double longitude;
+
+    double degreesToRadians(double degrees) const {
+        return degrees * PI / 180.0;
+    }
+
+    double haversine(double angle) const {
+        return sin(angle / 2) * sin(angle / 2);
+    }
+
+public:
+    Coordinate(double lat, double lon) : latitude(lat), longitude(lon) {}
+
+    double getLatitude() const {return latitude;}
+    double getLongitude() const {return longitude;}
+
+    double calculateDistanceTo(const Coordinate &other) const {
+        double latOne = degreesToRadians(latitude);
+        double lonOne = degreesToRadians(longitude);
+        double latTwo = degreesToRadians(other.latitude);
+        double longTwo = degreesToRadians(other.longitude);
+
+        double dLat = latTwo - latOne;
+        double dLong = longTwo - lonOne;
+
+        double a = haversine(dLat) + cos(latOne) * cos(latTwo) * haversine(dLong);
+        double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+        return EARTH_RADIUS * c;
+    }
+};
 
 // class Mayor
 class Mayor {
@@ -35,6 +72,7 @@ private:
     char* name;
     uint32_t population;
     uint16_t yearRecorded;
+    Coordinate locationCoordinate;
     // TODO Implement Coordinates class
 
     // TODO Implement Mayor class
@@ -64,11 +102,17 @@ public:
 
 // Cities - Distance Calculation Program
 
-
-
 int main() {
-    City exampleCity("Oxford", 3000, 2024);
-    std::cout << exampleCity.getName() << std::endl;
+    Coordinate londonEngland(51.5072, -0.1276);
+    Coordinate oxfordEngland(51.7520, -1.2577);
+
+    double distance = londonEngland.calculateDistanceTo(oxfordEngland);
+
+    std::cout << "The distance between London, England and Oxford, England is "
+             << distance << " km." << std::endl;
+
+    // City exampleCity("Oxford", 3000, 2024);
+    // std::cout << exampleCity.getName() << std::endl;
 
     // Return 0 to indicate successful execution
     return 0;
