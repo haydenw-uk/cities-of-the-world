@@ -47,24 +47,15 @@ public:
 // class Mayor
 class Mayor {
 private:
-    char* name;
-    char* residenceAddress;
+    std::string name;
+    std::string residenceAddress;
 public:
     // Constructor
-    Mayor(char* a_name, char* a_residenceAddress) {
-        name = a_name;
-        residenceAddress = a_residenceAddress;
-    }
-    // Destructor
-    ~Mayor() {
-        delete[] name;
-    }
+    Mayor(const std::string& a_name, const std::string& a_residenceAddress)
+        : name(a_name), residenceAddress(a_residenceAddress) {}
 
-    // GETTER Methods
-    const char* getName() const {return name;}
-    const char* getResidenceAddress() const {return residenceAddress;}
-
-    // SETTER Methods
+    const std::string& getName() const {return name;}
+    const std::string& getResidenceAddress() const {return residenceAddress;}
 };
 
 class City {
@@ -72,19 +63,19 @@ private:
     char* name;
     uint32_t population;
     uint16_t yearRecorded;
-    Coordinate locationCoordinate;
-    // TODO Implement Coordinates class
+    Coordinate coordinates;
+    Mayor mayor;
 
     // TODO Implement Mayor class
 public:
     // Constructor
-    City(const char* a_name, uint32_t a_population, uint16_t a_yearRecorded) {
+    City(const char* a_name, uint32_t a_population, uint16_t a_yearRecorded, const Coordinate& a_coordinates, const Mayor& a_mayor): coordinates(a_coordinates), mayor(a_mayor) {
         this->name = new char[strlen(a_name) + 1];
         strcpy(this->name, a_name);
         population = a_population;
         yearRecorded = a_yearRecorded;
-        //TODO Update constructor when classes implemented
     }
+
     // Destructor
     ~City() {
         delete[] name;
@@ -103,14 +94,19 @@ public:
 // Cities - Distance Calculation Program
 
 int main() {
-    Coordinate londonEngland(51.5072, -0.1276);
-    Coordinate oxfordEngland(51.7520, -1.2577);
+    //Coordinate londonEngland(51.5072, -0.1276);
 
-    double distance = londonEngland.calculateDistanceTo(oxfordEngland);
+    Coordinate oxfordCoordinates(51.7520, -1.2577);
+    Mayor oxfordMayor("Alice Bob", "City Hall");
 
-    std::cout << "The distance between London, England and Oxford, England is "
-             << distance << " km." << std::endl;
+    City city("Oxford", 30000, 2024, oxfordCoordinates, oxfordMayor);
+    std::cout << city.getName() << oxfordMayor.getName() << std::endl;
 
+    // double distance = londonEngland.calculateDistanceTo(oxfordEngland);
+    //
+    // std::cout << "The distance between London, England and Oxford, England is "
+    //          << distance << " km." << std::endl;
+    //
     // City exampleCity("Oxford", 3000, 2024);
     // std::cout << exampleCity.getName() << std::endl;
 
