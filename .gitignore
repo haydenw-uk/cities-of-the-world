@@ -33,3 +33,10 @@
 
 cmake-build-debug/
 
+/.idea/editor.xml
+/.idea/vcs.xml
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/encodings.xml
+/.idea/.name
+/.idea/cities-of-the-world.iml

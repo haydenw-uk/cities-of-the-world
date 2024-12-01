@@ -4,11 +4,6 @@
 
 #include "OperationsController.h"
 
-// Example implementation of a static method
-void OperationsController::staticMethod() {
-    std::cout << "Method started" << std::endl;
-}
-
 // Add a City
 void OperationsController::addCity() {
     // Implementation here

@@ -17,7 +17,7 @@ using namespace std;
 
 int main() {
     MenuManager menuManager;
-    //menuManager.run(); // Starts the interactive menu system.
+    menuManager.run(); // Starts the interactive menu system.
     return 0;
 
     //OperationsController::staticMethod();

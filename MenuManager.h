@@ -9,9 +9,10 @@
 
 class MenuManager {
 private:
-
+    void displayMainMenu();
+    void handleUserChoice();
+public :
+    void run();
 };
-
-
 
 #endif //MENUMANAGER_H

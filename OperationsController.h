@@ -10,42 +10,39 @@
 class OperationsController {
 public:
     // Add a City
-    void addCity();
+    static void addCity();
 
     // Delete a City
-    void deleteCity();
+    static void deleteCity();
 
     // Update a City
-    void updateCity();
+    static void updateCity();
 
     // Search for a City
-    void searchCityByName();
-    void searchCityByID();
+    static void searchCityByName();
+    static void searchCityByID();
 
     // Display a single City
-    void displayCity();
+    static void displayCity();
 
     // Display all cities
-    void displayAllCities();
+    static void displayAllCities();
 
     // Display a specific field of a City
-    void displaySpecificField();
+    static void displaySpecificField();
 
     // Load cities from a file
-    void loadCitiesFromFile();
+    static void loadCitiesFromFile();
 
     // Save cities to a file
-    void saveCitiesToFile();
+    static void saveCitiesToFile();
 
     // Calculate distance between two cities
-    double calculateDistance();
+    static double calculateDistance();
 
     // Utility Methods
-    int allocateUniqueID();
-    void resolveDuplicatedCity();
-
-    // Example static method
-    static void staticMethod();
+    static int allocateUniqueID();
+    static void resolveDuplicatedCity();
 
 
 };
