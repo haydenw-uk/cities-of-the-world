@@ -5,47 +5,37 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <cmath>
 
-
-// class Coordinate
 class Coordinate {
 private:
-    const double PI = 3.14159265358979323846;
-    const double EARTH_RADIUS = 6371.0; // Earth's radius in kilometers
+    // Constants for calculations
+    static constexpr double PI = 3.14159265358979323846;
+    static constexpr double EARTH_RADIUS = 6371.0; // Earth's radius in kilometers
 
     double latitude;
     double longitude;
 
-    double degreesToRadians(double degrees) const {
+
+    static double degreesToRadians(double degrees) {
         return degrees * PI / 180.0;
     }
 
-    double haversine(double angle) const {
-        return sin(angle / 2) * sin(angle / 2);
+
+    static double haversine(double angle) {
+        return std::sin(angle / 2) * std::sin(angle / 2);
     }
 
 public:
-    Coordinate(double lat, double lon) : latitude(lat), longitude(lon) {}
+    Coordinate(double lat, double lon);
 
-    double getLatitude() const {return latitude;}
-    double getLongitude() const {return longitude;}
+    double getLatitude() const;
 
-    double calculateDistanceTo(const Coordinate &other) const {
-        double latOne = degreesToRadians(latitude);
-        double lonOne = degreesToRadians(longitude);
-        double latTwo = degreesToRadians(other.latitude);
-        double longTwo = degreesToRadians(other.longitude);
 
-        double dLat = latTwo - latOne;
-        double dLong = longTwo - lonOne;
+    double getLongitude() const;
 
-        double a = haversine(dLat) + cos(latOne) * cos(latTwo) * haversine(dLong);
-        double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-        return EARTH_RADIUS * c;
-    }
+    double calculateDistanceTo(const Coordinate &other) const;
 };
 
-
-
-#endif //COORDINATE_H
+#endif // COORDINATE_H

@@ -4,23 +4,21 @@
 
 #ifndef MAYOR_H
 #define MAYOR_H
-#include <iostream>
-#include <cstring>
 
-// class Mayor
+#include <string>
+
 class Mayor {
 private:
     std::string name;
     std::string residenceAddress;
+
 public:
     // Constructor
-    Mayor(const std::string& a_name, const std::string& a_residenceAddress)
-        : name(a_name), residenceAddress(a_residenceAddress) {}
+    Mayor(const std::string& a_name, const std::string& a_residenceAddress);
 
-    const std::string& getName() const {return name;}
-    const std::string& getResidenceAddress() const {return residenceAddress;}
+    // Getter methods
+    const std::string& getName() const;
+    const std::string& getResidenceAddress() const;
 };
 
-
-
-#endif //MAYOR_H
+#endif // MAYOR_H

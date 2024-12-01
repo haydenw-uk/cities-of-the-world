@@ -4,21 +4,31 @@
 
 #include <iostream>
 #include <cstring>
-#include "Coordinate.cpp"
-#include "Mayor.cpp"
-#include "City.cpp"
-#include "OperationsController.cpp"
+#include "Coordinate.h"
+#include "Mayor.h"
+#include "City.h"
+#include "OperationsController.h"
+#include "MenuManager.h"
+
+using namespace std;
+
 
 // Cities - Distance Calculation Program
 
 int main() {
+    MenuManager menuManager;
+    //menuManager.run(); // Starts the interactive menu system.
+    return 0;
+
+    //OperationsController::staticMethod();
+
     //Coordinate londonEngland(51.5072, -0.1276);
 
-    Coordinate oxfordCoordinates(51.7520, -1.2577);
-    Mayor oxfordMayor("Alice Bob", "City Hall");
-
-    City city("Oxford", 30000, 2024, oxfordCoordinates, oxfordMayor);
-    std::cout << city.getName() << oxfordMayor.getName() << std::endl;
+    // Coordinate oxfordCoordinates(51.7520, -1.2577);
+    // Mayor oxfordMayor("Alice Bob", "City Hall");
+    //
+    // City city("Oxford", 30000, 2024, oxfordCoordinates, oxfordMayor);
+    // std::cout << city.getName() << oxfordMayor.getName() << std::endl;
 
     // double distance = londonEngland.calculateDistanceTo(oxfordEngland);
     //
