@@ -10,9 +10,10 @@
 class MenuManager {
 private:
     void displayMainMenu();
-    void handleUserChoice();
+    void displaySearchOptionsMenu();
+    void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
 public :
-    void run();
+    void run(std::vector<City>& cityRecords, OperationsController& opController);
 };
 
 #endif //MENUMANAGER_H

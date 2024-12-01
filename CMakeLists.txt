@@ -7,4 +7,6 @@ add_executable(cities_of_the_world
     main.cpp
         Mayor.cpp
         MenuManager.cpp
-        OperationsController.cpp)
+        OperationsController.cpp
+        Coordinate.cpp
+        City.cpp)

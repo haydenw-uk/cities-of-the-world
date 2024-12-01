@@ -13,14 +13,16 @@
 using namespace std;
 
 
-// Cities - Distance Calculation Program
+// Cities of the World - Distance Calculation Program
 
 int main() {
+    std::vector<City> cityRecords;
+    OperationsController operationsController;
     MenuManager menuManager;
-    menuManager.run(); // Starts the interactive menu system.
+
+    menuManager.run(cityRecords, operationsController);
     return 0;
 
-    //OperationsController::staticMethod();
 
     //Coordinate londonEngland(51.5072, -0.1276);
 

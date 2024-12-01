@@ -6,43 +6,47 @@
 #define OPERATIONSCONTROLLER_H
 
 #include <iostream>
+#include <vector>
+#include "City.h"
 
 class OperationsController {
+private:
+    static std::vector<City> cityRecords;
 public:
     // Add a City
-    static void addCity();
+    void addCity();
 
     // Delete a City
-    static void deleteCity();
+    void deleteCity(const std::vector<City>& cityRecords);
 
     // Update a City
-    static void updateCity();
+    void updateCity(const std::vector<City>& cityRecords);
 
     // Search for a City
-    static void searchCityByName();
-    static void searchCityByID();
+    void searchCityByName(const std::string& cityName);
+    void searchCityByID(const int cityID);
 
     // Display a single City
-    static void displayCity();
+    void displayCity(const std::vector<City>& cityRecords);
 
     // Display all cities
-    static void displayAllCities();
+    void displayAllCities();
 
     // Display a specific field of a City
-    static void displaySpecificField();
+    void displaySpecificField(const std::vector<City>& cityRecords);
 
     // Load cities from a file
-    static void loadCitiesFromFile();
+    void loadCitiesFromFile(std::vector<City>& cityRecords);
 
     // Save cities to a file
-    static void saveCitiesToFile();
+    void saveCitiesToFile(std::vector<City>& cityRecords);
 
     // Calculate distance between two cities
-    static double calculateDistance();
+    double calculateDistance(const std::vector<City>& cityRecords);
 
     // Utility Methods
-    static int allocateUniqueID();
-    static void resolveDuplicatedCity();
+    int allocateUniqueID(std::vector<City>& cityRecords);
+    void resolveDuplicatedCity(std::vector<City>& cityRecords);
 
 
 };
