@@ -10,8 +10,6 @@
 #include "OperationsController.h"
 #include "MenuManager.h"
 
-using namespace std;
-
 
 // Cities of the World - Distance Calculation Program
 

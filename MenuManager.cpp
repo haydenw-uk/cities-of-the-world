@@ -15,12 +15,11 @@ void MenuManager::displayMainMenu() {
     std::cout << "\n-- MAIN MENU --\n" << std::endl;
     std::cout << "1. Add a new city\n" <<std::endl;
     std::cout << "2. Delete a city\n" <<std::endl;
-    std::cout << "3. Update city information\n" <<std::endl;
-    std::cout << "4. Search for a city\n" <<std::endl;
-    std::cout << "5. Display (specific) city information\n" <<std::endl;
-    std::cout << "6. Display all (stored) cities\n" <<std::endl;
-    std::cout << "7. Calculate distance between two cities\n" <<std::endl;
-    std::cout << "8. Exit\n" <<std::endl;
+    std::cout << "3. Search for a city\n" <<std::endl;
+    std::cout << "4. Display OR Update (specific) city information\n" <<std::endl;
+    std::cout << "5. Display all cities\n" <<std::endl;
+    std::cout << "6. Calculate distance between two cities\n" <<std::endl;
+    std::cout << "7. Exit\n" <<std::endl;
     std::cout << "*******************" <<std::endl;
     std::cout << "Enter your choice: " <<std::endl;
 }
@@ -76,10 +75,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             }
             break;
         case 3:
-            // Update city information
-            opController.updateCity(cityRecords);
-            break;
-        case 4:
             // Search for a city
             displaySearchOptionsMenu();
             int searchChoice;
@@ -90,11 +85,11 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     break;
                 case 1:
                     // Search by City ID
-                        std::cout << "Enter City ID: " <<std::endl;
-                int id;
-                std::cin >> id;
-                opController.searchCityByID(id);
-                break;
+                    std::cout << "Enter City ID: " <<std::endl;
+                    int id;
+                    std::cin >> id;
+                    opController.searchCityByID(id);
+                    break;
                 case 2:
                     std::cout << "Enter City Name: " <<std::endl;
                     std::string name;
@@ -105,23 +100,30 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
             }
             break;
-        case 5:
+        case 4:
+            std::cout << "- VIEW CITY INFORMATION -" <<std::endl;
             // Display specific city information by City ID
             std::cout << "Enter City ID: " <<std::endl;
             int id;
             std::cin >> id;
-            opController.displayCityByID(id);
+            opController.searchCityByID(id);
+            // DISPLAY MENU ASKING USER WHETHER USER WANTS TO UPDATE INFORMATION
             break;
-        case 6:
+        case 5:
             // Display all (stored) city information
             opController.displayAllCities();
             break;
-        case 7:
-            // Calculate the distance between two cities]
-            opController.calculateDistance(cityRecords);
+        case 6:
+            // Calculate the distance between two cities
+            std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
+            std::cout << "Enter first City Name: " <<std::endl;
+            //TODO Implement check to determine whether name is shared with another, in which case ask user country, etc ...
+            std::cout << opController.calculateDistanceBetweenCities("Oxford", "London") << std::endl;
+
             // Enter first city
+            // Enter second city
             break;
-        case 8:
+        case 7:
             // Exit program
             std::cout << "Clearing-up and exiting." << std::endl;
             exit(0);
