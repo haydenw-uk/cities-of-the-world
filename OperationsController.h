@@ -27,9 +27,6 @@ public:
     void searchCityByName(const std::string& cityName);
     void searchCityByID(const int cityID);
 
-    // Display a single City
-    void displayCityByID(int id);
-
     // Display all cities
     void displayAllCities();
 
@@ -43,7 +40,7 @@ public:
     void saveCitiesToFile(std::vector<City>& cityRecords);
 
     // Calculate distance between two cities
-    double calculateDistance(const std::vector<City>& cityRecords);
+    double calculateDistanceBetweenCities(const std::string& cityNameOne, const std::string& cityNameTwo);
 
     // Utility Methods
     int allocateUniqueID();

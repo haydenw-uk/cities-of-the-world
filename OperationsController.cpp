@@ -121,6 +121,31 @@ void OperationsController::deleteCityByName(std::string nameToDelete) {
 
 // Update a City's information
 void OperationsController::updateCity(const int updateFieldID) {
+    switch(updateFieldID) {
+        case 0:
+            std::cout << "Enter city name to update: " << std::endl;
+            // Update City Name field
+            break;
+        case 1:
+            // Update City HistoryBrief field
+            break;
+        case 2:
+            // Update City Population field
+            break;
+        case 3:
+            // Update City Year Recorded field
+            break;
+        case 4:
+            // Update City US State / Country field
+            break;
+        case 5:
+            // Update City Coordinates
+            break;
+        case 6:
+            // Update City Mayor
+            break;
+
+    }
     //TODO Comment this method
     // TODO Implementation
 }
@@ -153,16 +178,6 @@ void OperationsController::searchCityByID(int cityID) {
         std::cout << "No city with ID : " << cityID << " was found." << std::endl;
     }
 }
-
-
-// Display a single City - TODO METHOD REDUNDANT; REMOVE
-void OperationsController::displayCityByID(int cityID) {
-    //TODO Rework this to spec requirement ...
-    // Display a part or all of the information stored, e.g. just the coordinates, or the
-    // name of the Mayor, etc.
-    // The user needs to have the option to select/ specify the field which to display
-}
-
 
 // Display all cities
 void OperationsController::displayAllCities() {
@@ -201,10 +216,28 @@ void OperationsController::saveCitiesToFile(std::vector<City>& cityRecords) {
     // TODO Implementation
 }
 
-// Calculate distance between two cities
-double OperationsController::calculateDistance(const std::vector<City>& cityRecords) {
-    // TODO Implementation
-    return 0.0;
+double OperationsController::calculateDistanceBetweenCities(const std::string& cityNameOne, const std::string& cityNameTwo) {
+    // Find the two cities by name
+    const City* city1 = nullptr;
+    const City* city2 = nullptr;
+
+    for (const auto& city : cityRecords) {
+        if (city.getName() == cityNameOne) {
+            city1 = &city;
+        } else if (city.getName() == cityNameTwo) {
+            city2 = &city;
+        }
+        if (city1 && city2) break; // Exit early if both cities are found
+    }
+
+    if (!city1 || !city2) {
+        std::cout << "One or both cities not found in CityRecords.\n";
+    }
+
+    // Calculate actual the distance
+    double distance = city1->getCoordinates().calculateDistanceTo(city2->getCoordinates());
+
+    return distance;
 }
 
 // Utility Methods
