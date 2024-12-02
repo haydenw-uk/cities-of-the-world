@@ -42,8 +42,8 @@ void OperationsController::addCity() {
     std::getline(std::cin, cityUsStateOrCountry);
 
     // Get City Coordinates
-    int latitude;
-    int longitude;
+    double latitude;
+    double longitude;
     // Get latitude
     std::cout << "-City Coordinates-\n" << "Enter latitude: " << std::endl;
     std::cin >> latitude;

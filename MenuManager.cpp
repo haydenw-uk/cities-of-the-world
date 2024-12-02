@@ -117,7 +117,8 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             // Calculate the distance between two cities
             std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
             std::cout << "Enter first City Name: " <<std::endl;
-            //TODO Implement check to determine whether name is shared with another, in which case ask user country, etc ...
+            std::cout << "Enter second City Name: " <<std::endl;
+            //TODO Implement validation check to determine whether City name is shared with another City ... in which case ask user country, etc until sorted ...
             std::cout << opController.calculateDistanceBetweenCities("Oxford", "London") << std::endl;
 
             // Enter first city
