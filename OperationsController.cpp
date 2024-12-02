@@ -1,13 +1,10 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
 
 #include "OperationsController.h"
 #include "City.h"
 
-std::vector<City> OperationsController::cityRecords;
+//std::vector<City> OperationsController::cityRecords;
 
-void OperationsController::addCity() {
+void OperationsController::addCity(std::vector<City>& cityRecords) {
     // Add a City
     std::cout << "[INFO] Answer the following questions on the city to add." << std::endl;
 
@@ -75,12 +72,12 @@ void OperationsController::addCity() {
 
     City newCity(uniqueID, cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry, newCityCoordinates, newCityMayor);
 
-    OperationsController::cityRecords.push_back(newCity);
+    cityRecords.push_back(newCity);
     std::cout << "Added " << cityName << " SUCCESSFULLY to records." << std::endl;
 }
 
 // Delete a City (by ID)
-void OperationsController::deleteCityByID(int idToDelete) {
+void OperationsController::deleteCityByID(std::vector<City>& cityRecords, int idToDelete) {
     bool cityFound = false;
     for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
         if(item->getUniqueID() == idToDelete) {
@@ -100,7 +97,7 @@ void OperationsController::deleteCityByID(int idToDelete) {
 }
 
 // Delete a City (by Name)
-void OperationsController::deleteCityByName(std::string nameToDelete) {
+void OperationsController::deleteCityByName(std::vector<City>& cityRecords, const std::string nameToDelete) {
     // TODO Rework this to check for duplicates before it removes and rework removal mechanism ensuring ID is added back to pool
     bool cityFound = false;
 
@@ -152,11 +149,11 @@ void OperationsController::updateCity(const int updateFieldID) {
 
 
 // Search for a City
-void OperationsController::searchCityByName(const std::string& cityName) {
+void OperationsController::searchCityByName(std::vector<City>& cityRecords, const std::string& cityName) {
     // TODO Implementation
 }
 
-void OperationsController::searchCityByID(int cityID) {
+void OperationsController::searchCityByID(std::vector<City>& cityRecords, int cityID) {
     bool cityFound = false;
     std::cout << "--VIEW CITY INFORMATION--" << std::endl;
     for (const auto& city  : cityRecords) {
@@ -172,6 +169,9 @@ void OperationsController::searchCityByID(int cityID) {
             std::cout << "\t-Mayor- "<< std::endl;
             std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
             std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
+
+            // Ask whether user wants to update any of the fields
+
         }
     }
     if(!cityFound) {
@@ -180,7 +180,7 @@ void OperationsController::searchCityByID(int cityID) {
 }
 
 // Display all cities
-void OperationsController::displayAllCities() {
+void OperationsController::displayAllCities(std::vector<City>& cityRecords) {
     if (cityRecords.size() == 0) {
         std::cout << "[INFO] NO CITIES HAVE BEEN RECORDED. PLEASE ADD A CITY AND TRY AGAIN!" << std::endl;
     }
@@ -216,28 +216,18 @@ void OperationsController::saveCitiesToFile(std::vector<City>& cityRecords) {
     // TODO Implementation
 }
 
-double OperationsController::calculateDistanceBetweenCities(const std::string& cityNameOne, const std::string& cityNameTwo) {
-    // Find the two cities by name
-    const City* city1 = nullptr;
-    const City* city2 = nullptr;
+double OperationsController::calculateDistanceBetweenCities(std::vector<City>& cityRecords, const std::string& cityNameOne, const std::string& cityNameTwo) {
+    // Search and find first city from name
+    auto cityOneItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameOne](const City& city) {
+        return city.getName() == cityNameOne;
+    });
 
-    for (const auto& city : cityRecords) {
-        if (city.getName() == cityNameOne) {
-            city1 = &city;
-        } else if (city.getName() == cityNameTwo) {
-            city2 = &city;
-        }
-        if (city1 && city2) break; // Exit early if both cities are found
-    }
+    // Search and find second city from name
+    auto cityTwoItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameTwo](const City& city) {
+        return city.getName() == cityNameTwo;
+    });
 
-    if (!city1 || !city2) {
-        std::cout << "One or both cities not found in CityRecords.\n";
-    }
-
-    // Calculate actual the distance
-    double distance = city1->getCoordinates().calculateDistanceTo(city2->getCoordinates());
-
-    return distance;
+    return cityOneItem->getCoordinates().calculateDistanceTo(cityTwoItem->getCoordinates());
 }
 
 // Utility Methods

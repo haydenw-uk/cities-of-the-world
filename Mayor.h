@@ -1,6 +1,3 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
 
 #ifndef MAYOR_H
 #define MAYOR_H

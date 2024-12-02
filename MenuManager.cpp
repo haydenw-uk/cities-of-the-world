@@ -1,7 +1,3 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
-
 #include "MenuManager.h"
 #include <iostream>
 #include "OperationsController.h"
@@ -48,7 +44,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
     switch (choice) {
         case 1:
             // Add a new city
-            opController.addCity();
+            opController.addCity(cityRecords);
             break;
         case 2:
             // Delete a city
@@ -65,7 +61,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     std::cout << "Enter the City ID to delete: " <<std::endl;
                     int deleteCityIDSelected;
                     std::cin >> deleteCityIDSelected;
-                    opController.deleteCityByID(deleteCityIDSelected);
+                    opController.deleteCityByID(cityRecords, deleteCityIDSelected);
                     break;
                 case 2:
                     // Delete a city by Name
@@ -88,14 +84,14 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     std::cout << "Enter City ID: " <<std::endl;
                     int id;
                     std::cin >> id;
-                    opController.searchCityByID(id);
+                    opController.searchCityByID(cityRecords, id);
                     break;
                 case 2:
                     std::cout << "Enter City Name: " <<std::endl;
                     std::string name;
                     std::cin.ignore();
                     std::getline(std::cin, name);
-                    opController.searchCityByName(name);
+                    opController.searchCityByName(cityRecords, name);
                     break;
 
             }
@@ -106,24 +102,36 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cout << "Enter City ID: " <<std::endl;
             int id;
             std::cin >> id;
-            opController.searchCityByID(id);
+            opController.searchCityByID(cityRecords, id);
             // DISPLAY MENU ASKING USER WHETHER USER WANTS TO UPDATE INFORMATION
             break;
         case 5:
             // Display all (stored) city information
-            opController.displayAllCities();
+            opController.displayAllCities(cityRecords);
             break;
-        case 6:
+        case 6: {
             // Calculate the distance between two cities
             std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
-            std::cout << "Enter first City Name: " <<std::endl;
-            std::cout << "Enter second City Name: " <<std::endl;
-            //TODO Implement validation check to determine whether City name is shared with another City ... in which case ask user country, etc until sorted ...
-            std::cout << opController.calculateDistanceBetweenCities("Oxford", "London") << std::endl;
 
-            // Enter first city
-            // Enter second city
+            std::cin.ignore();
+            std::cout << "Enter first City Name: " <<std::endl;
+
+            std::string cityNameOne;
+            std::getline(std::cin, cityNameOne);
+            std::cin.ignore();
+
+            std::cout << "Enter second City Name: " <<std::endl;
+            std::string cityNameTwo;
+            std::getline(std::cin, cityNameTwo);
+            std::cin.ignore();
+
+            //TODO Implement validation check to determine whether City name is shared with another City ... in which case ask user country, etc until sorted ...
+
+            double distanceAnswer = opController.calculateDistanceBetweenCities(cityRecords, cityNameOne, cityNameTwo);
+            std::cout << cityNameOne << " --> " << cityNameTwo << std::endl;
+            std::cout << "The distance is approximately " << distanceAnswer << " km"<< std::endl;
             break;
+        }
         case 7:
             // Exit program
             std::cout << "Clearing-up and exiting." << std::endl;

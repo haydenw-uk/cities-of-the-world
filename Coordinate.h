@@ -1,6 +1,3 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
 
 #ifndef COORDINATE_H
 #define COORDINATE_H
@@ -16,24 +13,14 @@ private:
     double latitude;
     double longitude;
 
-
-    static double degreesToRadians(double degrees) {
-        return degrees * PI / 180.0;
-    }
-
-
-    static double haversine(double angle) {
-        return std::sin(angle / 2) * std::sin(angle / 2);
-    }
+    static double degreesToRadians(double degrees);
+    static double haversine(double angle);
 
 public:
     Coordinate(double lat, double lon);
 
     double getLatitude() const;
-
-
     double getLongitude() const;
-
 
     double calculateDistanceTo(const Coordinate &other) const;
 };

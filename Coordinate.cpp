@@ -1,8 +1,8 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
 
 #include "Coordinate.h"
+
+#include <iostream>
+#include <ostream>
 
 Coordinate::Coordinate(double lat, double lon) : latitude(lat), longitude(lon) {}
 
@@ -15,10 +15,19 @@ double Coordinate::getLongitude() const {
     return longitude;
 }
 
+double Coordinate::degreesToRadians(double angles) {
+    return angles * PI / 180.0;
+}
+
+double Coordinate::haversine(double angle) {
+    return std::sin(angle / 2) * std::sin(angle / 2);
+}
+
 
 double Coordinate::calculateDistanceTo(const Coordinate &other) const {
     double latOne = degreesToRadians(latitude);
     double lonOne = degreesToRadians(longitude);
+
     double latTwo = degreesToRadians(other.latitude);
     double lonTwo = degreesToRadians(other.longitude);
 

@@ -1,7 +1,3 @@
-//
-// Created by Hayden Williams on 01/12/2024.
-//
-
 #ifndef OPERATIONSCONTROLLER_H
 #define OPERATIONSCONTROLLER_H
 
@@ -10,25 +6,23 @@
 #include "City.h"
 
 class OperationsController {
-private:
-    static std::vector<City> cityRecords;
 public:
     // Add a City
-    void addCity();
+    void addCity(std::vector<City>& cityRecords);
 
     // Delete a City
-    void deleteCityByID(int id);
-    void deleteCityByName(std::string name);
+    void deleteCityByID(std::vector<City>& cityRecords, int id);
+    void deleteCityByName(std::vector<City>& cityRecords, const std::string name);
 
     // Update a City
     void updateCity(const int updateFieldID);
 
     // Search for a City
-    void searchCityByName(const std::string& cityName);
-    void searchCityByID(const int cityID);
+    void searchCityByName(std::vector<City>& cityRecords, const std::string& cityName);
+    void searchCityByID(std::vector<City>& cityRecords, const int cityID);
 
     // Display all cities
-    void displayAllCities();
+    void displayAllCities(std::vector<City>& cityRecords);
 
     // Display a specific field of a City
     void displaySpecificField(const std::vector<City>& cityRecords);
@@ -40,7 +34,7 @@ public:
     void saveCitiesToFile(std::vector<City>& cityRecords);
 
     // Calculate distance between two cities
-    double calculateDistanceBetweenCities(const std::string& cityNameOne, const std::string& cityNameTwo);
+    double calculateDistanceBetweenCities(std::vector<City>& cityRecords, const std::string& cityNameOne, const std::string& cityNameTwo);
 
     // Utility Methods
     int allocateUniqueID();
