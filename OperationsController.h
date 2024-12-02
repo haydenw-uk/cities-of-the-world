@@ -17,7 +17,8 @@ public:
     void addCity();
 
     // Delete a City
-    void deleteCity(const std::vector<City>& cityRecords);
+    void deleteCityByID(int id);
+    void deleteCityByName(std::string name);
 
     // Update a City
     void updateCity(const std::vector<City>& cityRecords);
@@ -45,7 +46,7 @@ public:
     double calculateDistance(const std::vector<City>& cityRecords);
 
     // Utility Methods
-    int allocateUniqueID(std::vector<City>& cityRecords);
+    int allocateUniqueID();
     void resolveDuplicatedCity(std::vector<City>& cityRecords);
 
 

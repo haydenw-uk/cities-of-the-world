@@ -11,6 +11,7 @@ class MenuManager {
 private:
     void displayMainMenu();
     void displaySearchOptionsMenu();
+    void displayDeleteByOptionsMenu();
     void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
 public :
     void run(std::vector<City>& cityRecords, OperationsController& opController);

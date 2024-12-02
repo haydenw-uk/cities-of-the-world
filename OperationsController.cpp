@@ -36,6 +36,11 @@ void OperationsController::addCity() {
     std::cin >> cityYearRecorded;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
 
+    // Get City US State / Country Recorded
+    std::cout << "Enter City Country OR State if located in the United States: " << std::endl;
+    std::string cityUsStateOrCountry;
+    std::getline(std::cin, cityUsStateOrCountry);
+
     // Get City Coordinates
     int latitude;
     int longitude;
@@ -66,18 +71,49 @@ void OperationsController::addCity() {
     Coordinate newCityCoordinates(latitude, longitude);
     Mayor newCityMayor(cityMayorFullname, cityMayorResidencesAddress);
 
-    // TODO: Implement proper uniqueID mechanism
-    int uniqueID = 1;
+    int uniqueID = allocateUniqueID();
 
-    City newCity(uniqueID, cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, newCityCoordinates, newCityMayor);
+    City newCity(uniqueID, cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry, newCityCoordinates, newCityMayor);
 
     OperationsController::cityRecords.push_back(newCity);
     std::cout << "Added " << cityName << " SUCCESSFULLY to records." << std::endl;
 }
 
-// Delete a City
-void OperationsController::deleteCity(const std::vector<City>& cityRecords) {
-    // TODO Implementation
+// Delete a City (by ID)
+void OperationsController::deleteCityByID(int idToDelete) {
+    bool cityFound = false;
+    for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+        if(item->getUniqueID() == idToDelete) {
+            cityRecords.erase(item);
+            cityFound = true;
+            std::cout << "Deleted city with ID : " << item->getUniqueID() << std::endl;
+            static std::vector<int> avaliableIDs;
+            avaliableIDs.push_back(idToDelete);
+            break;
+        }
+    }
+    if(!cityFound) {
+        std::cout << "No city with ID : " << idToDelete << " was found." << std::endl;
+    }
+}
+
+// Delete a City (by Name)
+void OperationsController::deleteCityByName(std::string nameToDelete) {
+    // TODO Rework this to check for duplicates before it removes and rework removal mechanism ensuring ID is added back to pool
+    bool cityFound = false;
+    for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+        if(item->getName() == nameToDelete) {
+            cityRecords.erase(item);
+            cityFound = true;
+            std::cout << "Deleted city with ID : " << item->getUniqueID() << std::endl;
+            static std::vector<int> avaliableIDs;
+            //avaliableIDs.push_back(name);
+            break;
+        }
+    }
+    if(!cityFound) {
+        //std::cout << "No city with ID : " << idToDelete << " was found." << std::endl;
+    }
 }
 
 // Update a City
@@ -113,6 +149,7 @@ void OperationsController::displayAllCities() {
     std::cout << "--VIEW ALL RECORDED CITIES--" << std::endl;
     for (const auto& city  : cityRecords) {
         std::cout << city.getName() << " (" << city.getUniqueID() << ")" << std::endl;
+        std::cout << "\tCountry / US State: " << city.getUsStateOrCountry() << std::endl;
         std::cout << "\tBrief History / Description: " << city.getHistoryBrief() << std::endl;
         std::cout << "\tPopulation: " << city.getPopulation() << std::endl;
         std::cout << "\tYear Recorded In Program: " << city.getYearRecorded() << std::endl;
@@ -147,9 +184,17 @@ double OperationsController::calculateDistance(const std::vector<City>& cityReco
 }
 
 // Utility Methods
-int OperationsController::allocateUniqueID(std::vector<City>& cityRecords) {
-    // TODO Implementation
-    return 0;
+int OperationsController::allocateUniqueID() {
+    static int currentID = 0;
+    static std::vector<int> avaliableIDs;
+
+    if(!avaliableIDs.empty()) {
+        int id = avaliableIDs.back();
+        avaliableIDs.pop_back();
+        return id;
+    }
+    currentID++;
+    return currentID;
 }
 
 void OperationsController::resolveDuplicatedCity(std::vector<City>& cityRecords) {

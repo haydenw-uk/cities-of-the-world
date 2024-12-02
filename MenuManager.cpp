@@ -32,6 +32,12 @@ void MenuManager::displaySearchOptionsMenu() {
     std::cout << "Enter your choice: " <<std::endl;
 };
 
+void MenuManager::displayDeleteByOptionsMenu() {
+    std::cout << "-- DELETE MENU --" <<std::endl;
+    std::cout << "1. Delete a city by ID\n" <<std::endl;
+    std::cout << "2. Delete a city by Name\n" <<std::endl;
+}
+
 void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController) {
     int choice;
     std::cin >> choice;
@@ -43,7 +49,21 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             break;
         case 2:
             // Delete a city
-            opController.deleteCity(cityRecords);
+            displayDeleteByOptionsMenu();
+            int deleteByChoice;
+            std::cin >> deleteByChoice;
+            switch(deleteByChoice) {
+                default:
+                    std::cout << "Invalid search choice.! Returning to the main menu ..." << std::endl;
+                    break;
+                case 1:
+                    // Delete a city by ID
+                    break;
+                case 2:
+                    // Delete a city by Name
+                    break;
+            }
+            //opController.deleteCity();
             break;
         case 3:
             // Update city information

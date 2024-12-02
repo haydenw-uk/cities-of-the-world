@@ -13,13 +13,14 @@ private:
     std::string historyBrief;
     uint32_t population;
     uint16_t yearRecorded;
+    std::string usStateOrCountry;
     Coordinate coordinates;
     Mayor mayor;
 
 public:
     // Constructor
     City(const int uniqueID, const std::string& a_name, const std::string& a_historyBrief,
-         uint32_t a_population, uint16_t a_yearRecorded, const Coordinate& a_coordinates,
+         uint32_t a_population, uint16_t a_yearRecorded, const std::string usStateOrCountry, const Coordinate& a_coordinates,
          const Mayor& a_mayor);
 
     // Destructor
@@ -27,10 +28,11 @@ public:
 
     // GETTER Methods
     int getUniqueID() const;
-    const std::string& getName() const;        // Return C-style string for name
-    const std::string& getHistoryBrief() const; // Return C-style string for historyBrief
+    const std::string& getName() const;
+    const std::string& getHistoryBrief() const;
     uint32_t getPopulation() const;
     uint16_t getYearRecorded() const;
+    const std::string& getUsStateOrCountry() const;
     const Coordinate& getCoordinates() const;
     const Mayor& getMayor() const;
 
@@ -38,6 +40,8 @@ public:
     void setName(const std::string& a_name);
     void setHistoryBrief(const std::string& a_historyBrief);
     void setPopulation(uint32_t a_population);
+    void setYearRecorded(uint16_t a_yearRecorded);
+    void setUsStateOrCountry(const std::string& a_usStateOrCountry);
     void setCoordinates(const Coordinate& a_coordinates);
     void setMayor(const Mayor& a_mayor);
 };
