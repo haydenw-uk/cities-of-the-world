@@ -21,14 +21,14 @@ public:
     void deleteCityByName(std::string name);
 
     // Update a City
-    void updateCity(const std::vector<City>& cityRecords);
+    void updateCity(const int updateFieldID);
 
     // Search for a City
     void searchCityByName(const std::string& cityName);
     void searchCityByID(const int cityID);
 
     // Display a single City
-    void displayCity(const std::vector<City>& cityRecords);
+    void displayCityByID(int id);
 
     // Display all cities
     void displayAllCities();

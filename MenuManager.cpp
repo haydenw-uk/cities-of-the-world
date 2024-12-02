@@ -38,6 +38,10 @@ void MenuManager::displayDeleteByOptionsMenu() {
     std::cout << "2. Delete a city by Name\n" <<std::endl;
 }
 
+void MenuManager::displayWarningMessageDataDeletion() {
+    std::cout << "-- WARNING! THIS ACTION WILL DELETE DATA! --" <<std::endl;
+}
+
 void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController) {
     int choice;
     std::cin >> choice;
@@ -58,12 +62,18 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     break;
                 case 1:
                     // Delete a city by ID
+                    displayWarningMessageDataDeletion();
+                    std::cout << "Enter the City ID to delete: " <<std::endl;
+                    int deleteCityIDSelected;
+                    std::cin >> deleteCityIDSelected;
+                    opController.deleteCityByID(deleteCityIDSelected);
                     break;
                 case 2:
                     // Delete a city by Name
+                    displayWarningMessageDataDeletion();
+                    //TODO Implementation
                     break;
             }
-            //opController.deleteCity();
             break;
         case 3:
             // Update city information
@@ -87,25 +97,29 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                 break;
                 case 2:
                     std::cout << "Enter City Name: " <<std::endl;
-                std::string name;
-                std::cin.ignore();
-                std::getline(std::cin, name);
-                opController.searchCityByName(name);
-                break;
+                    std::string name;
+                    std::cin.ignore();
+                    std::getline(std::cin, name);
+                    opController.searchCityByName(name);
+                    break;
 
             }
             break;
         case 5:
-            // Display specific city information
-            opController.displayCity(cityRecords);
+            // Display specific city information by City ID
+            std::cout << "Enter City ID: " <<std::endl;
+            int id;
+            std::cin >> id;
+            opController.displayCityByID(id);
             break;
         case 6:
             // Display all (stored) city information
             opController.displayAllCities();
             break;
         case 7:
-            // Calculate the distance between two cities
+            // Calculate the distance between two cities]
             opController.calculateDistance(cityRecords);
+            // Enter first city
             break;
         case 8:
             // Exit program

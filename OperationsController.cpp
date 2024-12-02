@@ -84,16 +84,18 @@ void OperationsController::deleteCityByID(int idToDelete) {
     bool cityFound = false;
     for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
         if(item->getUniqueID() == idToDelete) {
+            //TODO Implement validation this action was a success
+            std::cout << "[INFO] ATTEMPTING to delete City with ID: " << item->getName() << std::endl;
             cityRecords.erase(item);
             cityFound = true;
-            std::cout << "Deleted city with ID : " << item->getUniqueID() << std::endl;
+            std::cout << "[INFO] SUCCESSFULLY DELETED City with ID : " << item->getUniqueID() << std::endl;
             static std::vector<int> avaliableIDs;
             avaliableIDs.push_back(idToDelete);
             break;
         }
     }
     if(!cityFound) {
-        std::cout << "No city with ID : " << idToDelete << " was found." << std::endl;
+        std::cout << "CANNOT DELETE! No city exists with ID : " << idToDelete << " was found..." << std::endl;
     }
 }
 
@@ -101,6 +103,7 @@ void OperationsController::deleteCityByID(int idToDelete) {
 void OperationsController::deleteCityByName(std::string nameToDelete) {
     // TODO Rework this to check for duplicates before it removes and rework removal mechanism ensuring ID is added back to pool
     bool cityFound = false;
+
     for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
         if(item->getName() == nameToDelete) {
             cityRecords.erase(item);
@@ -116,8 +119,9 @@ void OperationsController::deleteCityByName(std::string nameToDelete) {
     }
 }
 
-// Update a City
-void OperationsController::updateCity(const std::vector<City>& cityRecords) {
+// Update a City's information
+void OperationsController::updateCity(const int updateFieldID) {
+    //TODO Comment this method
     // TODO Implementation
 }
 
@@ -128,24 +132,43 @@ void OperationsController::searchCityByName(const std::string& cityName) {
 }
 
 void OperationsController::searchCityByID(int cityID) {
-    if(cityID == 1) {
-        std::cout << "Hello World!" << std::endl;
+    bool cityFound = false;
+    std::cout << "--VIEW CITY INFORMATION--" << std::endl;
+    for (const auto& city  : cityRecords) {
+        if(city.getUniqueID() == cityID) {
+            cityFound = true;
+            std::cout << city.getName() << " (" << city.getUniqueID() << ")" << std::endl;
+            std::cout << "\tCountry / US State: " << city.getUsStateOrCountry() << std::endl;
+            std::cout << "\tBrief History / Description: " << city.getHistoryBrief() << std::endl;
+            std::cout << "\tPopulation: " << city.getPopulation() << std::endl;
+            std::cout << "\tYear Recorded In Program: " << city.getYearRecorded() << std::endl;
+            std::cout << "\tCoordinates: " << city.getCoordinates().getLatitude() << ", " << city.getCoordinates().getLongitude() << std::endl;
+
+            std::cout << "\t-Mayor- "<< std::endl;
+            std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
+            std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
+        }
     }
-    // TODO Implementation
+    if(!cityFound) {
+        std::cout << "No city with ID : " << cityID << " was found." << std::endl;
+    }
 }
 
 
-// Display a single City
-void OperationsController::displayCity(const std::vector<City>& cityRecords) {
-    // TODO Implementation
+// Display a single City - TODO METHOD REDUNDANT; REMOVE
+void OperationsController::displayCityByID(int cityID) {
+    //TODO Rework this to spec requirement ...
+    // Display a part or all of the information stored, e.g. just the coordinates, or the
+    // name of the Mayor, etc.
+    // The user needs to have the option to select/ specify the field which to display
 }
+
 
 // Display all cities
 void OperationsController::displayAllCities() {
     if (cityRecords.size() == 0) {
         std::cout << "[INFO] NO CITIES HAVE BEEN RECORDED. PLEASE ADD A CITY AND TRY AGAIN!" << std::endl;
     }
-
     std::cout << "--VIEW ALL RECORDED CITIES--" << std::endl;
     for (const auto& city  : cityRecords) {
         std::cout << city.getName() << " (" << city.getUniqueID() << ")" << std::endl;
@@ -161,6 +184,7 @@ void OperationsController::displayAllCities() {
 
     }
 }
+
 
 // Display a specific field of a City
 void OperationsController::displaySpecificField(const std::vector<City>& cityRecords) {
