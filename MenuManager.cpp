@@ -66,7 +66,11 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                 case 2:
                     // Delete a city by Name
                     displayWarningMessageDataDeletion();
-                    //TODO Implementation
+                    std::cout << "Enter the City Name to delete: " <<std::endl;
+                    std::string deleteCityNameSelected;
+                    std::cin.ignore();
+                    std::getline(std::cin, deleteCityNameSelected);
+                    opController.deleteCityByName(cityRecords, deleteCityNameSelected);
                     break;
             }
             break;
@@ -103,7 +107,8 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             int id;
             std::cin >> id;
             opController.searchCityByID(cityRecords, id);
-            // DISPLAY MENU ASKING USER WHETHER USER WANTS TO UPDATE INFORMATION
+
+            // TODO DISPLAY MENU ASKING USER WHETHER USER WANTS TO UPDATE INFORMATION
             break;
         case 5:
             // Display all (stored) city information

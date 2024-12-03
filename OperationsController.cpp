@@ -98,21 +98,22 @@ void OperationsController::deleteCityByID(std::vector<City>& cityRecords, int id
 
 // Delete a City (by Name)
 void OperationsController::deleteCityByName(std::vector<City>& cityRecords, const std::string nameToDelete) {
-    // TODO Rework this to check for duplicates before it removes and rework removal mechanism ensuring ID is added back to pool
+    // TODO Rework implementation to check for duplicates before it removes and rework removal mechanism ensuring ID is added back to pool
     bool cityFound = false;
 
     for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
         if(item->getName() == nameToDelete) {
+            std::cout << "[INFO] ATTEMPTING to delete City with name: " << item->getName() << std::endl;
             cityRecords.erase(item);
             cityFound = true;
-            std::cout << "Deleted city with ID : " << item->getUniqueID() << std::endl;
+            std::cout << "[INFO] SUCCESSFULLY DELETED City with name " << item->getName() << std::endl;
             static std::vector<int> avaliableIDs;
-            //avaliableIDs.push_back(name);
+            avaliableIDs.push_back(item->getUniqueID());
             break;
         }
     }
     if(!cityFound) {
-        //std::cout << "No city with ID : " << idToDelete << " was found." << std::endl;
+        std::cout << "No city with name : " << nameToDelete << " was found." << std::endl;
     }
 }
 
