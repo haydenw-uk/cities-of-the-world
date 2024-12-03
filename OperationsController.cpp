@@ -192,23 +192,66 @@ void OperationsController::updateCity(std::vector<City>& cityRecords, const int 
                 if(item->getUniqueID() == cityToUpdateID) {
                     std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
                     item->setUsStateOrCountry(newCityUsCountry);
-                    std::cout << "[INFO] SUCCESSFULLY updated city population. " << std::endl;
+                    std::cout << "[INFO] SUCCESSFULLY updated Country / US State of city. " << std::endl;
                 }
             }
             break;
         }
         case 6: {
             // Update City Coordinates - Latitude
+            double newCityCoordinatesLat;
+            std::cout << "Enter city coordinate latitude: " << std::endl;
+            std::cin >> newCityCoordinatesLat;
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+
+                    Coordinate currentCoordinates = item->getCoordinates();
+                    Coordinate updatedCoordinates(newCityCoordinatesLat, currentCoordinates.getLongitude());
+                    item->setCoordinates(updatedCoordinates);
+
+                    std::cout << "[INFO] SUCCESSFULLY updated city's coordinates. " << std::endl;
+                }
+            }
             break;
         }
 
         case 7: {
             // Update City Coordinates - Longitude
+            double newCityCoordinatesLong;
+            std::cout << "Enter city coordinate longitude: " << std::endl;
+            std::cin >> newCityCoordinatesLong;
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+
+                    Coordinate currentCoordinates = item->getCoordinates();
+                    Coordinate updatedCoordinates(currentCoordinates.getLatitude(), newCityCoordinatesLong);
+                    item->setCoordinates(updatedCoordinates);
+
+                    std::cout << "[INFO] SUCCESSFULLY updated city's coordinates. " << std::endl;
+                }
+            }
             break;
         }
 
         case 8: {
-            // Update City Mayor Name
+            // // Update City Mayor Name
+            // std::string newCityMayorName;
+            // std::cout << "Enter city new mayor name: " << std::endl;
+            //
+            // std::cin.ignore();
+            // std::getline(std::cin, newCityMayorName);
+            //
+            // for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+            //     if(item->getUniqueID() == cityToUpdateID) {
+            //         std::cout << "[INFO] Attempting to update mayor of " << item->getName()  << std::endl;
+            //
+            //         item->setMayor();
+            //
+            //         std::cout << "[INFO] SUCCESSFULLY updated city's year recorded. " << std::endl;
+            //     }
+            // }
             break;
         }
 

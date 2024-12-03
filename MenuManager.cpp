@@ -64,7 +64,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             opController.addCity(cityRecords);
             break;
         }
-
         case 2: {
             // Delete a city
             displayDeleteByOptionsMenu();

@@ -7,6 +7,7 @@
 Coordinate::Coordinate(double lat, double lon) : latitude(lat), longitude(lon) {}
 
 
+// Getters
 double Coordinate::getLatitude() const {
     return latitude;
 }
@@ -14,6 +15,16 @@ double Coordinate::getLatitude() const {
 double Coordinate::getLongitude() const {
     return longitude;
 }
+// Setters
+void Coordinate::setLatitude(double newLatitude) {
+    latitude = newLatitude;
+}
+void Coordinate::setLongitude(double newLongitude) {
+    longitude = newLongitude;
+}
+
+
+// Coordinate general methods
 
 double Coordinate::degreesToRadians(double angles) {
     return angles * PI / 180.0;
@@ -22,7 +33,6 @@ double Coordinate::degreesToRadians(double angles) {
 double Coordinate::haversine(double angle) {
     return std::sin(angle / 2) * std::sin(angle / 2);
 }
-
 
 double Coordinate::calculateDistanceTo(const Coordinate &other) const {
     double latOne = degreesToRadians(latitude);
