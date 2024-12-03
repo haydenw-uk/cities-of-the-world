@@ -34,9 +34,20 @@ void MenuManager::displayDeleteByOptionsMenu() {
 }
 
 void MenuManager::displayUpdateOptionsMenu() {
-    std::cout << "-- UPDATE CITY MENU --" <<std::endl;
-    std::cout << "1. Delete a city by ID\n" <<std::endl;
-    std::cout << "2. Delete a city by Name\n" <<std::endl;
+    std::cout << "-- UPDATE [CURRENT] CITY MENU --" <<std::endl;
+    std::cout << "1. Update Name field: \n" <<std::endl;
+    std::cout << "2. Update History Brief / Description field: \n" <<std::endl;
+    std::cout << "3. Update Population field: \n" <<std::endl;
+    std::cout << "4. Update Year Recorded field: \n" <<std::endl;
+    std::cout << "5. Update Country / US State Field: \n" <<std::endl;
+
+    std::cout << "*Coordinates: \n" <<std::endl;
+    std::cout << "\t6. Update Coordinate's latitude field: \n" <<std::endl;
+    std::cout << "\t7. Update Coordinate's longitude field: \n" <<std::endl;
+
+    std::cout << "*Mayor: \n" <<std::endl;
+    std::cout << "\t8. Update Mayor's Name field: \n" <<std::endl;
+    std::cout << "\t9. Update Mayor's Official Residences Address field: \n" <<std::endl;
 }
 
 void MenuManager::displayWarningMessageDataDeletion() {
@@ -48,20 +59,24 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
     std::cin >> choice;
 
     switch (choice) {
-        case 1:
+        case 1: {
             // Add a new city
             opController.addCity(cityRecords);
             break;
-        case 2:
+        }
+
+        case 2: {
             // Delete a city
             displayDeleteByOptionsMenu();
             int deleteByChoice;
             std::cin >> deleteByChoice;
             switch(deleteByChoice) {
-                default:
+                default: {
                     std::cout << "Invalid search choice.! Returning to the main menu ..." << std::endl;
                     break;
-                case 1:
+                }
+
+                case 1: {
                     // Delete a city by ID
                     displayWarningMessageDataDeletion();
                     std::cout << "Enter the City ID to delete: " <<std::endl;
@@ -69,7 +84,8 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     std::cin >> deleteCityIDSelected;
                     opController.deleteCityByID(cityRecords, deleteCityIDSelected);
                     break;
-                case 2:
+                }
+                case 2: {
                     // Delete a city by Name
                     displayWarningMessageDataDeletion();
                     std::cout << "Enter the City Name to delete: " <<std::endl;
@@ -78,50 +94,70 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     std::getline(std::cin, deleteCityNameSelected);
                     opController.deleteCityByName(cityRecords, deleteCityNameSelected);
                     break;
+                }
+
             }
             break;
-        case 3:
+        }
+        case 3: {
             // Search for a city [update fields asked later]
+            int currentCityID = -1;
             displaySearchOptionsMenu();
             int searchChoice;
             std::cin >> searchChoice;
             switch(searchChoice) {
-                default:
+                default: {
                     std::cout << "Invalid search choice.! Returning to the main menu ..." << std::endl;
                     break;
-                case 1:
+                }
+
+                case 1: {
                     // Search by City ID
                     std::cout << "Enter City ID: " <<std::endl;
                     int id;
                     std::cin >> id;
-                    opController.searchCityByID(cityRecords, id);
+                    currentCityID = opController.searchCityByID(cityRecords, id);
                     break;
-                case 2:
+                }
+
+                case 2: {
                     std::cout << "Enter City Name: " <<std::endl;
                     std::string name;
                     std::cin.ignore();
                     std::getline(std::cin, name);
-                    opController.searchCityByName(cityRecords, name);
+                    currentCityID = opController.searchCityByName(cityRecords, name);
                     break;
+                }
+
             }
             // Ask user whether they want to update any items
             // Display
-            std::string updateCityFields;
-            std::cout << "[INFO] Would you like to update any city fields? (YES/NO)" <<std::endl;
-            std::getline(std::cin, updateCityFields);
+            char updateCityFields;
+            std::cout << "[INFO] Would you like to update any city fields? (y/n)" <<std::endl;
+            std::cin >> updateCityFields;
 
-            if(updateCityFields == "YES") {
+            if(updateCityFields == 'y') {
                 displayUpdateOptionsMenu();
-                // !!! LEFT-OFF !!!
-                // [] Call updateCityMethod [OperationsController class]
-                // [] Tweak updateCity method to determine update field inside it and remove updateFieldID parameter
-                std::cout << "Enter the fields you want to update: " <<std::endl;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                int updateFieldID;
+                std::cout << "Enter your choice: " <<std::endl;
+                std::cin >> updateFieldID;
+                opController.updateCity(cityRecords, updateFieldID, currentCityID);
+
+            }
+            else if (updateCityFields == 'n') {
+                std::cout << "Invalid option. Going back to the main menu." << std::endl;
             }
             break;
-        case 4:
+        }
+
+        case 4: {
             // Display all (stored) city information
             opController.displayAllCities(cityRecords);
             break;
+            }
+
         case 5: {
             // Calculate the distance between two cities
             std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
@@ -145,14 +181,19 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cout << "The distance is approximately " << distanceAnswer << " km"<< std::endl;
             break;
         }
-        case 6:
+        case 6: {
             // Save program cities to file
             //TODO Implement saving cities to file
+            std::cout << "Hello world!" << std::endl;
             break;
-        case 7:
+        }
+
+        case 7: {
             // Exit program
             std::cout << "Clearing-up and exiting." << std::endl;
             exit(0);
+        }
+
     }
 }
 

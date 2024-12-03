@@ -118,39 +118,111 @@ void OperationsController::deleteCityByName(std::vector<City>& cityRecords, cons
 }
 
 // Update a City's information
-void OperationsController::updateCity(const int updateFieldID) {
+void OperationsController::updateCity(std::vector<City>& cityRecords, const int updateFieldID, const int cityToUpdateID) {
     switch(updateFieldID) {
-        case 0:
-            std::cout << "Enter city name to update: " << std::endl;
+        case 1: {
             // Update City Name field
+            std::string newCityName;
+            std::cout << "Enter city name to update to: " << std::endl;
+            std::cin.ignore();
+            std::getline(std::cin, newCityName);
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+                    item->setName(newCityName);
+                    std::cout << "[INFO] SUCCESSFULLY updated city name to " << item->getName()  << std::endl;
+                }
+            }
             break;
-        case 1:
+        }
+
+        case 2: {
             // Update City HistoryBrief field
+            std::string newCityHistoryBrief;
+            std::cout << "Enter history brief / description to update to: " << std::endl;
+            std::cin.ignore();
+            std::getline(std::cin, newCityHistoryBrief);
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+                    item->setHistoryBrief(newCityHistoryBrief);
+                    std::cout << "[INFO] SUCCESSFULLY updated city brief history / description. " << std::endl;
+                }
+            }
             break;
-        case 2:
+        }
+
+        case 3: {
             // Update City Population field
+            int newCityPopulation;
+            std::cout << "Enter city population to update to: " << std::endl;
+            std::cin >> newCityPopulation;
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+                    item->setPopulation(newCityPopulation);
+                    std::cout << "[INFO] SUCCESSFULLY updated city population. " << std::endl;
+                }
+            }
             break;
-        case 3:
+        }
+
+        case 4: {
             // Update City Year Recorded field
+            int newCityYearRecorded;
+            std::cout << "Enter city year recorded in system to update to: " << std::endl;
+            std::cin >> newCityYearRecorded;
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+                    item->setYearRecorded(newCityYearRecorded);
+                    std::cout << "[INFO] SUCCESSFULLY updated city's year recorded. " << std::endl;
+                }
+            }
             break;
-        case 4:
+        }
+
+        case 5: {
             // Update City US State / Country field
+            std::string newCityUsCountry;
+            std::cout << "Enter Country / US State to update to: " << std::endl;
+            std::cin.ignore();
+            std::getline(std::cin, newCityUsCountry);
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update " << item->getName()  << std::endl;
+                    item->setUsStateOrCountry(newCityUsCountry);
+                    std::cout << "[INFO] SUCCESSFULLY updated city population. " << std::endl;
+                }
+            }
             break;
-        case 5:
-            // Update City Coordinates
+        }
+        case 6: {
+            // Update City Coordinates - Latitude
             break;
-        case 6:
-            // Update City Mayor
+        }
+
+        case 7: {
+            // Update City Coordinates - Longitude
             break;
+        }
+
+        case 8: {
+            // Update City Mayor Name
+            break;
+        }
+
+        case 9: {
+            // Update City Mayor Official Residences Address
+            break;
+        }
 
     }
-    //TODO Comment this method
-    // TODO Implementation
 }
 
 
 // Search for a City
-void OperationsController::searchCityByName(std::vector<City>& cityRecords, const std::string& cityName) {
+int OperationsController::searchCityByName(std::vector<City>& cityRecords, const std::string& cityName) {
     bool cityFound = false;
     std::cout << "--VIEW CITY INFORMATION--" << std::endl;
     for (const auto& city  : cityRecords) {
@@ -167,15 +239,16 @@ void OperationsController::searchCityByName(std::vector<City>& cityRecords, cons
             std::cout << "\t-Mayor- "<< std::endl;
             std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
             std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
-
+            return city.getUniqueID();
         }
     }
     if(!cityFound) {
         std::cout << "No city with Name : " << cityName << " was found." << std::endl;
+        return -1;
     }
 }
 
-void OperationsController::searchCityByID(std::vector<City>& cityRecords, int cityID) {
+int OperationsController::searchCityByID(std::vector<City>& cityRecords, int cityID) {
     bool cityFound = false;
     std::cout << "--VIEW CITY INFORMATION--" << std::endl;
     for (const auto& city  : cityRecords) {
@@ -191,11 +264,12 @@ void OperationsController::searchCityByID(std::vector<City>& cityRecords, int ci
             std::cout << "\t-Mayor- "<< std::endl;
             std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
             std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
-
+            return city.getUniqueID();
         }
     }
     if(!cityFound) {
         std::cout << "No city with ID : " << cityID << " was found." << std::endl;
+        return -1;
     }
 }
 

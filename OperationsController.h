@@ -15,11 +15,11 @@ public:
     void deleteCityByName(std::vector<City>& cityRecords, const std::string name);
 
     // Update a City
-    void updateCity(const int updateFieldID);
+    void updateCity(std::vector<City>& cityRecords, const int updateFieldID, const int cityID);
 
     // Search for a City
-    void searchCityByName(std::vector<City>& cityRecords, const std::string& cityName);
-    void searchCityByID(std::vector<City>& cityRecords, const int cityID);
+    int searchCityByName(std::vector<City>& cityRecords, const std::string& cityName);
+    int searchCityByID(std::vector<City>& cityRecords, const int cityID);
 
     // Display all cities
     void displayAllCities(std::vector<City>& cityRecords);
