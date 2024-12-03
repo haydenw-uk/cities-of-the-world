@@ -8,6 +8,7 @@ private:
     void displayMainMenu();
     void displaySearchOptionsMenu();
     void displayDeleteByOptionsMenu();
+    void displayUpdateOptionsMenu();
     void displayWarningMessageDataDeletion();
     void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
 public :

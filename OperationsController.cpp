@@ -151,7 +151,28 @@ void OperationsController::updateCity(const int updateFieldID) {
 
 // Search for a City
 void OperationsController::searchCityByName(std::vector<City>& cityRecords, const std::string& cityName) {
-    // TODO Implementation
+    bool cityFound = false;
+    std::cout << "--VIEW CITY INFORMATION--" << std::endl;
+    for (const auto& city  : cityRecords) {
+        if(city.getName() == cityName) {
+            cityFound = true;
+            //TODO Before submission ensure printing is combined into one function such as 'DisplayCityInformation' for efficiency and stopping duplication
+            std::cout << city.getName() << " (" << city.getUniqueID() << ")" << std::endl;
+            std::cout << "\tCountry / US State: " << city.getUsStateOrCountry() << std::endl;
+            std::cout << "\tBrief History / Description: " << city.getHistoryBrief() << std::endl;
+            std::cout << "\tPopulation: " << city.getPopulation() << std::endl;
+            std::cout << "\tYear Recorded In Program: " << city.getYearRecorded() << std::endl;
+            std::cout << "\tCoordinates: " << city.getCoordinates().getLatitude() << ", " << city.getCoordinates().getLongitude() << std::endl;
+
+            std::cout << "\t-Mayor- "<< std::endl;
+            std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
+            std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
+
+        }
+    }
+    if(!cityFound) {
+        std::cout << "No city with Name : " << cityName << " was found." << std::endl;
+    }
 }
 
 void OperationsController::searchCityByID(std::vector<City>& cityRecords, int cityID) {
@@ -170,8 +191,6 @@ void OperationsController::searchCityByID(std::vector<City>& cityRecords, int ci
             std::cout << "\t-Mayor- "<< std::endl;
             std::cout << "\t\tFull Name: " << city.getMayor().getName() << std::endl;
             std::cout << "\t\tOfficial Address: " << city.getMayor().getResidenceAddress() << "\n--" << std::endl;
-
-            // Ask whether user wants to update any of the fields
 
         }
     }
@@ -206,6 +225,7 @@ void OperationsController::displayAllCities(std::vector<City>& cityRecords) {
 void OperationsController::displaySpecificField(const std::vector<City>& cityRecords) {
     // TODO Implementation
 }
+
 
 // Load cities from a file
 void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords) {

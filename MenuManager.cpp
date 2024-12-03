@@ -11,10 +11,10 @@ void MenuManager::displayMainMenu() {
     std::cout << "\n-- MAIN MENU --\n" << std::endl;
     std::cout << "1. Add a new city\n" <<std::endl;
     std::cout << "2. Delete a city\n" <<std::endl;
-    std::cout << "3. Search for a city\n" <<std::endl;
-    std::cout << "4. Display OR Update (specific) city information\n" <<std::endl;
-    std::cout << "5. Display all cities\n" <<std::endl;
-    std::cout << "6. Calculate distance between two cities\n" <<std::endl;
+    std::cout << "3. Search for a city, Update city fields\n" <<std::endl;
+    std::cout << "4. Display all cities\n" <<std::endl;
+    std::cout << "5. Calculate distance between two cities\n" <<std::endl;
+    std::cout << "6. Save\n" <<std::endl;
     std::cout << "7. Exit\n" <<std::endl;
     std::cout << "*******************" <<std::endl;
     std::cout << "Enter your choice: " <<std::endl;
@@ -29,6 +29,12 @@ void MenuManager::displaySearchOptionsMenu() {
 
 void MenuManager::displayDeleteByOptionsMenu() {
     std::cout << "-- DELETE MENU --" <<std::endl;
+    std::cout << "1. Delete a city by ID\n" <<std::endl;
+    std::cout << "2. Delete a city by Name\n" <<std::endl;
+}
+
+void MenuManager::displayUpdateOptionsMenu() {
+    std::cout << "-- UPDATE CITY MENU --" <<std::endl;
     std::cout << "1. Delete a city by ID\n" <<std::endl;
     std::cout << "2. Delete a city by Name\n" <<std::endl;
 }
@@ -75,7 +81,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             }
             break;
         case 3:
-            // Search for a city
+            // Search for a city [update fields asked later]
             displaySearchOptionsMenu();
             int searchChoice;
             std::cin >> searchChoice;
@@ -97,24 +103,26 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     std::getline(std::cin, name);
                     opController.searchCityByName(cityRecords, name);
                     break;
+            }
+            // Ask user whether they want to update any items
+            // Display
+            std::string updateCityFields;
+            std::cout << "[INFO] Would you like to update any city fields? (YES/NO)" <<std::endl;
+            std::getline(std::cin, updateCityFields);
 
+            if(updateCityFields == "YES") {
+                displayUpdateOptionsMenu();
+                // !!! LEFT-OFF !!!
+                // [] Call updateCityMethod [OperationsController class]
+                // [] Tweak updateCity method to determine update field inside it and remove updateFieldID parameter
+                std::cout << "Enter the fields you want to update: " <<std::endl;
             }
             break;
         case 4:
-            std::cout << "- VIEW CITY INFORMATION -" <<std::endl;
-            // Display specific city information by City ID
-            std::cout << "Enter City ID: " <<std::endl;
-            int id;
-            std::cin >> id;
-            opController.searchCityByID(cityRecords, id);
-
-            // TODO DISPLAY MENU ASKING USER WHETHER USER WANTS TO UPDATE INFORMATION
-            break;
-        case 5:
             // Display all (stored) city information
             opController.displayAllCities(cityRecords);
             break;
-        case 6: {
+        case 5: {
             // Calculate the distance between two cities
             std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
 
@@ -137,6 +145,10 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cout << "The distance is approximately " << distanceAnswer << " km"<< std::endl;
             break;
         }
+        case 6:
+            // Save program cities to file
+            //TODO Implement saving cities to file
+            break;
         case 7:
             // Exit program
             std::cout << "Clearing-up and exiting." << std::endl;
