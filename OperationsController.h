@@ -28,10 +28,10 @@ public:
     void displaySpecificField(const std::vector<City>& cityRecords);
 
     // Load cities from a file
-    void loadCitiesFromFile(std::vector<City>& cityRecords, const std::string fileName);
+    void loadCitiesFromFile(std::vector<City>& cityRecords, const std::string& fileName);
 
     // Save cities to a file
-    void saveCitiesToFile(std::vector<City>& cityRecords);
+    void saveCitiesToFile(const std::vector<City>& cityRecords, const std::string& fileName);
 
     // Calculate distance between two cities
     double calculateDistanceBetweenCities(std::vector<City>& cityRecords, const std::string& cityNameOne, const std::string& cityNameTwo);

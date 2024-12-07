@@ -345,12 +345,12 @@ void OperationsController::displaySpecificField(const std::vector<City>& cityRec
 
 
 // Load cities from a file
-void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, const std::string fileNameToLoad) {
+void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, const std::string& fileNameToLoad) {
     // Open file
 
     std::ifstream loadFile(fileNameToLoad);
     if (!loadFile.is_open()) {
-        std::cerr << "Error: Could not open file " << fileNameToLoad << std::endl;
+        std::cerr << "Error: Could not open cities file " << fileNameToLoad << std::endl;
         return;
     }
 
@@ -376,7 +376,7 @@ void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, co
                 City newCity(allocateUniqueID(), cityName, cityHistoryBrief, std::stoi(cityPopulation), std::stoi(cityYearRecorded), cityUsStateOrCountry, newCityCoordinates, newCityMayor);
 
                 cityRecords.push_back(newCity);
-                std::cout << "LOADED " << cityName << " SUCCESSFULLY into the program ..." << std::endl;
+                std::cout << "[INFO] " << cityName << " was loaded SUCCESSFULLY ..." << std::endl;
             }
 
     }
@@ -384,10 +384,30 @@ void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, co
 }
 
 // Save cities to a file
-void OperationsController::saveCitiesToFile(std::vector<City>& cityRecords) {
-    // TODO Implementation
-}
+void OperationsController::saveCitiesToFile(const std::vector<City>& cityRecords, const std::string& fileNameToSave) {
+    // Open file for writing
+    std::ofstream saveFile(fileNameToSave);
+    if (!saveFile.is_open()) {
+        std::cerr << "Error: Could not open cities file for saving " << fileNameToSave << std::endl;
+        return;
+    }
 
+    // Iterate through city records and write to file
+    for (const auto& city : cityRecords) {
+        saveFile << city.getName() << ","
+                 << city.getHistoryBrief() << ","
+                 << city.getPopulation() << ","
+                 << city.getYearRecorded() << ","
+                 << city.getUsStateOrCountry() << ","
+                 << city.getCoordinates().getLatitude() << ","
+                 << city.getCoordinates().getLongitude() << ","
+                 << city.getMayor().getName() << ","
+                 << city.getMayor().getResidenceAddress()
+                 << "\n";
+
+        std::cout << "[INFO] " << city.getName() << " was saved SUCCESSFULLY ..." << std::endl;
+    }
+}
 double OperationsController::calculateDistanceBetweenCities(std::vector<City>& cityRecords, const std::string& cityNameOne, const std::string& cityNameTwo) {
     // Search and find first city from name
     auto cityOneItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameOne](const City& city) {

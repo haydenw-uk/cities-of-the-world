@@ -181,9 +181,9 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             break;
         }
         case 6: {
-            // Save program cities to file
-            //TODO Implement saving cities to file
-            std::cout << "Hello world!" << std::endl;
+            // Save current program's (RAM) cities to file
+            std::cout << "- SAVE TO FILE -" << std::endl;
+            opController.saveCitiesToFile(cityRecords, "cities.txt");
             break;
         }
 
@@ -198,7 +198,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
     std::cout << "*** WELCOME TO CITIES OF THE WORLD IN C++ ***\n" << std::endl;
-    opController.loadCitiesFromFile(cityRecords, "./cities.txt");
+    opController.loadCitiesFromFile(cityRecords, "cities.txt");
 
     while(true) {
         displayMainMenu();
