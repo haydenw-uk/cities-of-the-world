@@ -1,0 +1,2 @@
+London, Capital of England, 8945310, 2024, United Kingdom, 51.509, -0.1180, Boris Johnson, City Hall
+Oxford, Ancient university city, 165200, 2024, United Kingdom, 51.7520, -1.2577, Mike Rowley, St Aldate's

@@ -1,8 +1,10 @@
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 #include "OperationsController.h"
 #include "City.h"
-
-//std::vector<City> OperationsController::cityRecords;
 
 void OperationsController::addCity(std::vector<City>& cityRecords) {
     // Add a City
@@ -68,9 +70,7 @@ void OperationsController::addCity(std::vector<City>& cityRecords) {
     Coordinate newCityCoordinates(latitude, longitude);
     Mayor newCityMayor(cityMayorFullname, cityMayorResidencesAddress);
 
-    int uniqueID = allocateUniqueID();
-
-    City newCity(uniqueID, cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry, newCityCoordinates, newCityMayor);
+    City newCity(allocateUniqueID(), cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry, newCityCoordinates, newCityMayor);
 
     cityRecords.push_back(newCity);
     std::cout << "Added " << cityName << " SUCCESSFULLY to records." << std::endl;
@@ -345,8 +345,42 @@ void OperationsController::displaySpecificField(const std::vector<City>& cityRec
 
 
 // Load cities from a file
-void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords) {
-    // TODO Implementation
+void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, const std::string fileNameToLoad) {
+    // Open file
+
+    std::ifstream loadFile(fileNameToLoad);
+    if (!loadFile.is_open()) {
+        std::cerr << "Error: Could not open file " << fileNameToLoad << std::endl;
+        return;
+    }
+
+    for (std::string line; std::getline(loadFile, line);) {
+        std::istringstream ss(line);
+
+        std::string cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry, cityCoordinateLat, cityCoordinateLong, cityMayorName, cityMayorResidenceAddress;
+
+        // Split current line by commas
+        if (std::getline(ss, cityName, ',') &&
+            std::getline(ss, cityHistoryBrief, ',') &&
+            std::getline(ss, cityPopulation, ',') &&
+            std::getline(ss, cityYearRecorded, ',') &&
+            std::getline(ss, cityUsStateOrCountry, ',') &&
+            std::getline(ss, cityCoordinateLat, ',') &&
+            std::getline(ss, cityCoordinateLong, ',') &&
+            std::getline(ss, cityMayorName, ',') &&
+            std::getline(ss, cityMayorResidenceAddress, ','))
+            {
+                Coordinate newCityCoordinates(std::stod(cityCoordinateLat), std::stod(cityCoordinateLong));
+                Mayor newCityMayor(cityMayorName, cityMayorResidenceAddress);
+
+                City newCity(allocateUniqueID(), cityName, cityHistoryBrief, std::stoi(cityPopulation), std::stoi(cityYearRecorded), cityUsStateOrCountry, newCityCoordinates, newCityMayor);
+
+                cityRecords.push_back(newCity);
+                std::cout << "LOADED " << cityName << " SUCCESSFULLY into the program ..." << std::endl;
+            }
+
+    }
+
 }
 
 // Save cities to a file

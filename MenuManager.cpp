@@ -166,15 +166,15 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
             std::string cityNameOne;
             std::getline(std::cin, cityNameOne);
-            std::cin.ignore();
 
+            std::cin.ignore();
             std::cout << "Enter second City Name: " <<std::endl;
             std::string cityNameTwo;
             std::getline(std::cin, cityNameTwo);
-            std::cin.ignore();
+
 
             //TODO Implement validation check to determine whether City name is shared with another City ... in which case ask user country, etc until sorted ...
-
+            std::cin.ignore();
             double distanceAnswer = opController.calculateDistanceBetweenCities(cityRecords, cityNameOne, cityNameTwo);
             std::cout << cityNameOne << " --> " << cityNameTwo << std::endl;
             std::cout << "The distance is approximately " << distanceAnswer << " km"<< std::endl;
@@ -198,6 +198,8 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
     std::cout << "*** WELCOME TO CITIES OF THE WORLD IN C++ ***\n" << std::endl;
+    opController.loadCitiesFromFile(cityRecords, "./cities.txt");
+
     while(true) {
         displayMainMenu();
         handleUserChoice(cityRecords, opController);

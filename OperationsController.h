@@ -28,7 +28,7 @@ public:
     void displaySpecificField(const std::vector<City>& cityRecords);
 
     // Load cities from a file
-    void loadCitiesFromFile(std::vector<City>& cityRecords);
+    void loadCitiesFromFile(std::vector<City>& cityRecords, const std::string fileName);
 
     // Save cities to a file
     void saveCitiesToFile(std::vector<City>& cityRecords);
