@@ -62,6 +62,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         case 1: {
             // Add a new city
             opController.addCity(cityRecords);
+            //opController.resolveDuplicatedCity(cityRecords);
             break;
         }
         case 2: {
@@ -199,6 +200,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
     std::cout << "*** WELCOME TO CITIES OF THE WORLD IN C++ ***\n" << std::endl;
     opController.loadCitiesFromFile(cityRecords, "cities.txt");
+    opController.resolveDuplicatedCity(cityRecords);
 
     while(true) {
         displayMainMenu();

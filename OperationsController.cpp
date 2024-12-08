@@ -422,20 +422,42 @@ double OperationsController::calculateDistanceBetweenCities(std::vector<City>& c
     return cityOneItem->getCoordinates().calculateDistanceTo(cityTwoItem->getCoordinates());
 }
 
-// Utility Methods
+// ID-related methods for cities
 int OperationsController::allocateUniqueID() {
-    static int currentID = 0;
-    static std::vector<int> avaliableIDs;
-
-    if(!avaliableIDs.empty()) {
-        int id = avaliableIDs.back();
-        avaliableIDs.pop_back();
+    if(!availableIDs.empty()) {
+        int id = availableIDs.back();
+        availableIDs.pop_back();
         return id;
     }
-    currentID++;
-    return currentID;
+    return ++currentID;
 }
 
+void OperationsController::releaseUniqueID(int idToRelease) {
+    // Release ID back into ID pool
+    availableIDs.push_back(idToRelease);
+}
+
+
 void OperationsController::resolveDuplicatedCity(std::vector<City>& cityRecords) {
-    // TODO Implementation
+    // Iterate over city records
+    for (size_t i = 0; i < cityRecords.size(); i++) {
+        for (size_t j = i + 1; j < cityRecords.size(); j++) {
+            const City& firstCity = cityRecords[i];
+            const City& secondCity = cityRecords[j];
+
+            if (firstCity.getName() == secondCity.getName() &&
+                firstCity.getUsStateOrCountry() == secondCity.getUsStateOrCountry()) {
+                std::cout << "[INFO] Duplicate detected (EXACT city name and US State/Country match)...\n[INFO] REMOVING " << secondCity.getName() << " with ID " << secondCity.getUniqueID() << std::endl;
+
+                // Duplicate second city removed from records
+                cityRecords.erase(cityRecords.begin() + j);
+
+                // ID of removed city released back into pool of available IDs for future use
+                releaseUniqueID(secondCity.getUniqueID());
+
+                // IMPORTANT! Decrement essential to ensure the next entry check is not skipped!
+                j -= 1;
+            }
+        }
+    }
 }

@@ -6,6 +6,9 @@
 #include "City.h"
 
 class OperationsController {
+private:
+    int currentID;
+    std::vector<int> availableIDs;
 public:
     // Add a City
     void addCity(std::vector<City>& cityRecords);
@@ -38,6 +41,8 @@ public:
 
     // Utility Methods
     int allocateUniqueID();
+    void releaseUniqueID(int idToRelease);
+
     void resolveDuplicatedCity(std::vector<City>& cityRecords);
 
 
