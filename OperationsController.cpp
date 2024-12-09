@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 #include "OperationsController.h"
 #include "City.h"
@@ -307,8 +308,8 @@ int OperationsController::searchCityByName(std::vector<City>& cityRecords, const
     }
     if(!cityFound) {
         std::cout << "No city with Name : " << cityName << " was found." << std::endl;
-        return -1;
     }
+    return -1;
 }
 
 int OperationsController::searchCityByID(std::vector<City>& cityRecords, int cityID) {
@@ -332,8 +333,8 @@ int OperationsController::searchCityByID(std::vector<City>& cityRecords, int cit
     }
     if(!cityFound) {
         std::cout << "No city with ID : " << cityID << " was found." << std::endl;
-        return -1;
     }
+    return -1;
 }
 
 // Display all cities
@@ -357,53 +358,381 @@ void OperationsController::displayAllCities(std::vector<City>& cityRecords) {
     }
 }
 
-
-// Display a specific field of a City
-void OperationsController::displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID) {
-    switch (fieldToDisplayID) {
+void OperationsController::outputSpecificCityFieldSortedByField(const std::vector<City>& cityRecords, int fieldDisplayID) {
+    std::cout << "\n-*- SORTED CITY NAMES -*- " << std::endl;
+    switch (fieldDisplayID) {
+        default:
+            std::cout << "[ERROR] An error occurred. Exiting now to main menu ..." << fieldDisplayID << std::endl;
+            break;
         case 1: {
-            // Display City Names (and IDs)
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Name
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getName() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 2: {
-            // Display Histories / Brief Descriptions
-            std::cout << "--VIEW Y SPECIFIC FIELD--" << std::endl;
+            // City Brief Description / History
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getHistoryBrief() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 3: {
-            // Display Population
-            std::cout << "--VIEW Z SPECIFIC FIELD--" << std::endl;
+            // City Population
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getPopulation() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 4: {
-            // Display Year Recorded
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Year Recorded
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getYearRecorded() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 5: {
-            // Display Country / US State
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Year Recorded
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getYearRecorded() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 6: {
-            // Display coordinates
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Coordinates (Latitude)
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getCoordinates().getLatitude() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 7: {
-            // Display Mayor Name
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Coordinates (Longitude)
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getCoordinates().getLongitude() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
+
         case 8: {
-            // Display Mayoral Residences
-            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            // City Mayor Name
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getMayor().getName() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
+            break;
+        }
+
+        case 9: {
+            // City Mayor Official Residences Address
+            for (size_t k = 0; k < cityRecords.size(); k++) {
+                std::cout << cityRecords.at(k).getMayor().getResidenceAddress() << " (CityID:" << cityRecords.at(k).getUniqueID() << "" << ")" << std::endl;
+            }
             break;
         }
     }
+
 }
 
+
+// Display a specific field of a City
+void OperationsController::displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID, const std::string& sortDirection) {
+    if (cityRecords.empty()) {
+        std::cout << "[INFO] No cities recorded. Please add cities and try again!" << std::endl;
+        return;
+    }
+
+    // Copu cityRecords to temporary vector structure for sorting
+    std::vector<City> sortedRecords = cityRecords;
+
+    // Manual Bubble Sort algorithm
+    bool ascending = false;
+    if (sortDirection == "asc") {
+        ascending = true;
+    }
+    else {
+        ascending = false;
+    }
+    for (size_t i = 0; i < sortedRecords.size(); i++) {
+        for (size_t j = 0; j < sortedRecords.size(); j++) {
+            bool condition = false;
+
+            // Compute sort criteria
+            switch (fieldToDisplayID) {
+                case 1: {
+                    // Sort by City Name
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getName() > sortedRecords[j + 1].getName()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getName() < sortedRecords[j + 1].getName()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 2: {
+                    // Sort by City Brief Description / History
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getHistoryBrief() > sortedRecords[j + 1].getHistoryBrief()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getHistoryBrief() < sortedRecords[j + 1].getHistoryBrief()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 3: {
+                    // Sort by City Population
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getPopulation() > sortedRecords[j + 1].getPopulation()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getPopulation() < sortedRecords[j + 1].getPopulation()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 4: {
+                    // Sort by City Year Recorded
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getYearRecorded() > sortedRecords[j + 1].getYearRecorded()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getYearRecorded() < sortedRecords[j + 1].getYearRecorded()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 5: {
+                    // Sort by US State / Country
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getUsStateOrCountry() > sortedRecords[j + 1].getUsStateOrCountry()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getUsStateOrCountry() < sortedRecords[j + 1].getUsStateOrCountry()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 6: {
+                    // Sort by City Coordinates, Lat.
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getCoordinates().getLatitude() > sortedRecords[j + 1].getCoordinates().getLatitude()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getCoordinates().getLatitude() < sortedRecords[j + 1].getCoordinates().getLatitude()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 7: {
+                    // Sort by City Coordinates, Long.
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getCoordinates().getLongitude() > sortedRecords[j + 1].getCoordinates().getLongitude()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getCoordinates().getLongitude() < sortedRecords[j + 1].getCoordinates().getLongitude()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 8: {
+                    // Sort by City Mayor Name
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getMayor().getName() > sortedRecords[j + 1].getMayor().getName()) {
+                            condition = true;
+                            // Set condition to true if cities need to be swapped
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getMayor().getName() < sortedRecords[j + 1].getMayor().getName()) {
+                            condition = true;
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                            // Set condition to true if cities need to be swapped
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+                case 9: {
+                    // Sort by City Mayor Official Residences Address
+                    if (ascending) {
+                        // Ascending order comparison
+                        if (sortedRecords[j].getMayor().getResidenceAddress() > sortedRecords[j + 1].getMayor().getResidenceAddress()) {
+                            condition = true;
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                            // Set condition to true if cities need to be swapped
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    } else {
+                        // Descending order comparison
+                        if (sortedRecords[j].getMayor().getResidenceAddress() < sortedRecords[j + 1].getMayor().getResidenceAddress()) {
+                            condition = true;
+                            if (condition) {
+                                std::swap(sortedRecords[j], sortedRecords[j+1]);
+                            }
+                            // Set condition to true if cities need to be swapped
+                        } else {
+                            condition = false;
+                            // No swap needed
+                        }
+                    }
+                    break;
+                }
+            }
+
+            }
+        }
+    // Determine type of sort, Output relevant field
+    outputSpecificCityFieldSortedByField(sortedRecords, fieldToDisplayID);
+
+}
 
 // Load cities from a file
 void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, const std::string& fileNameToLoad) {

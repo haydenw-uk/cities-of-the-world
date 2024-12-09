@@ -9,6 +9,8 @@ private:
     void displaySearchOptionsMenu();
     void displayDeleteByOptionsMenu();
     void displayUpdateOptionsMenu();
+    void displayMainDisplayCityOptionsMenu();
+    void displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu();
     void displayWarningMessageDataDeletion();
     void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
 public :

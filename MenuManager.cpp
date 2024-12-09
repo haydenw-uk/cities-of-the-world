@@ -12,7 +12,7 @@ void MenuManager::displayMainMenu() {
     std::cout << "1. Add a new city\n" <<std::endl;
     std::cout << "2. Delete a city\n" <<std::endl;
     std::cout << "3. Search for a city, Update city fields\n" <<std::endl;
-    std::cout << "4. Display all cities\n" <<std::endl;
+    std::cout << "4. Display all / cities, Specific city fields\n" <<std::endl;
     std::cout << "5. Calculate distance between two cities\n" <<std::endl;
     std::cout << "6. Save\n" <<std::endl;
     std::cout << "7. Exit\n" <<std::endl;
@@ -50,6 +50,27 @@ void MenuManager::displayUpdateOptionsMenu() {
     std::cout << "\t9. Update Mayor's Official Residences Address field: \n" <<std::endl;
 }
 
+void MenuManager::displayMainDisplayCityOptionsMenu() {
+  std::cout << "-- DISPLAY CITY MENU --" <<std::endl;
+  std::cout << "1. Display all cities and fields in records (unsorted)\n" <<std::endl;
+  std::cout << "2. Display specific cities fields (sorted by user selected field)\n" <<std::endl;
+}
+
+void MenuManager::displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu() {
+    std::cout << "-- DISPLAY SPECIFIC CITY FIELDS MENU --\n" <<std::endl;
+    std::cout << "--- CHOOSE FIELDS TO DISPLAY ---" <<std::endl;
+    std::cout << "1. City Name" <<std::endl;
+    std::cout << "2. City Brief Description / History" <<std::endl;
+    std::cout << "3. City Population" <<std::endl;
+    std::cout << "4. City Year Recorded" <<std::endl;
+    std::cout << "5. City Country / US State" <<std::endl;
+    std::cout << "6. City Coordinates (Latitude)" <<std::endl;
+    std::cout << "7. City Coordinates (Longitude)" <<std::endl;
+    std::cout << "8. City Mayor Name" <<std::endl;
+    std::cout << "9. City Mayor Official Residences Address" <<std::endl;
+
+}
+
 void MenuManager::displayWarningMessageDataDeletion() {
     std::cout << "-- WARNING! THIS ACTION WILL DELETE DATA! --" <<std::endl;
 }
@@ -62,7 +83,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         case 1: {
             // Add a new city
             opController.addCity(cityRecords);
-            //opController.resolveDuplicatedCity(cityRecords);
+            opController.resolveDuplicatedCity(cityRecords);
             break;
         }
         case 2: {
@@ -131,7 +152,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
             }
             // Ask user whether they want to update any items
-            // Display
             char updateCityFields;
             std::cout << "[INFO] Would you like to update any city fields? (y/n)" <<std::endl;
             std::cin >> updateCityFields;
@@ -153,8 +173,36 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         }
 
         case 4: {
-            // Display all (stored) city information
-            opController.displayAllCities(cityRecords);
+            // Ask user which fields to display
+            displayMainDisplayCityOptionsMenu();
+
+            int displayOptionID;
+            std::cout << "Enter your choice: " <<std::endl;
+            std::cin >> displayOptionID;
+
+            switch(displayOptionID) {
+              case 1: {
+                  // Display all (stored) city information
+                  opController.displayAllCities(cityRecords);
+                  break;
+              }
+                case 2: {
+                  // Display specific cities fields menu
+                  int fieldID;
+                  std::string sortDirection;
+
+                  displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu();
+                  std::cin >> fieldID;
+
+                  std::cout << "Enter sort direction (asc or desc): ";
+                  std::cin >> sortDirection;
+
+                  opController.displaySpecificField(cityRecords, fieldID, sortDirection);
+
+                  //opController.displaySpecificField(cityRecords, 5, "desc");
+              }
+            }
+
             break;
             }
 
@@ -198,6 +246,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
     }
 }
+
 
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
     std::cout << "*** WELCOME TO CITIES OF THE WORLD IN C++ ***\n" << std::endl;
