@@ -237,26 +237,46 @@ void OperationsController::updateCity(std::vector<City>& cityRecords, const int 
 
         case 8: {
             // // Update City Mayor Name
-            // std::string newCityMayorName;
-            // std::cout << "Enter city new mayor name: " << std::endl;
-            //
-            // std::cin.ignore();
-            // std::getline(std::cin, newCityMayorName);
-            //
-            // for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
-            //     if(item->getUniqueID() == cityToUpdateID) {
-            //         std::cout << "[INFO] Attempting to update mayor of " << item->getName()  << std::endl;
-            //
-            //         item->setMayor();
-            //
-            //         std::cout << "[INFO] SUCCESSFULLY updated city's year recorded. " << std::endl;
-            //     }
-            // }
+            std::string newCityMayorName;
+            std::cout << "Enter city new mayor name: " << std::endl;
+
+            std::cin.ignore();
+            std::getline(std::cin, newCityMayorName);
+
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update mayor name of " << item->getName()  << std::endl;
+
+
+                    Mayor currentMayor = item->getMayor();
+                    Mayor updatedMayor(newCityMayorName, currentMayor.getResidenceAddress());
+                    item->setMayor(updatedMayor);
+
+                    std::cout << "[INFO] SUCCESSFULLY updated city mayor's name." << std::endl;
+                }
+            }
             break;
         }
 
         case 9: {
             // Update City Mayor Official Residences Address
+            std::string newCityMayorResidenceAddress;
+            std::cout << "Enter city new mayor residences address: " << std::endl;
+
+            std::cin.ignore();
+            std::getline(std::cin, newCityMayorResidenceAddress);
+
+            for(auto item = cityRecords.begin(); item != cityRecords.end(); item++) {
+                if(item->getUniqueID() == cityToUpdateID) {
+                    std::cout << "[INFO] Attempting to update mayor residences address of " << item->getName()  << std::endl;
+
+                    Mayor currentMayor = item->getMayor();
+                    Mayor updatedMayor(currentMayor.getName(), newCityMayorResidenceAddress);
+                    item->setMayor(updatedMayor);
+
+                    std::cout << "[INFO] SUCCESSFULLY updated city mayor's official residences address." << std::endl;
+                }
+            }
             break;
         }
 
@@ -339,8 +359,49 @@ void OperationsController::displayAllCities(std::vector<City>& cityRecords) {
 
 
 // Display a specific field of a City
-void OperationsController::displaySpecificField(const std::vector<City>& cityRecords) {
-    // TODO Implementation
+void OperationsController::displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID) {
+    switch (fieldToDisplayID) {
+        case 1: {
+            // Display City Names (and IDs)
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 2: {
+            // Display Histories / Brief Descriptions
+            std::cout << "--VIEW Y SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 3: {
+            // Display Population
+            std::cout << "--VIEW Z SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 4: {
+            // Display Year Recorded
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 5: {
+            // Display Country / US State
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 6: {
+            // Display coordinates
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 7: {
+            // Display Mayor Name
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+        case 8: {
+            // Display Mayoral Residences
+            std::cout << "--VIEW X SPECIFIC FIELD--" << std::endl;
+            break;
+        }
+    }
 }
 
 
@@ -376,7 +437,7 @@ void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, co
                 City newCity(allocateUniqueID(), cityName, cityHistoryBrief, std::stoi(cityPopulation), std::stoi(cityYearRecorded), cityUsStateOrCountry, newCityCoordinates, newCityMayor);
 
                 cityRecords.push_back(newCity);
-                std::cout << "[INFO] " << cityName << " was loaded SUCCESSFULLY ..." << std::endl;
+                std::cout << "[INFO] " << cityName << " loaded SUCCESSFULLY from file ..." << std::endl;
             }
 
     }
@@ -436,7 +497,6 @@ void OperationsController::releaseUniqueID(int idToRelease) {
     // Release ID back into ID pool
     availableIDs.push_back(idToRelease);
 }
-
 
 void OperationsController::resolveDuplicatedCity(std::vector<City>& cityRecords) {
     // Iterate over city records

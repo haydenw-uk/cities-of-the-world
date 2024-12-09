@@ -189,8 +189,10 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         }
 
         case 7: {
+            // Save cities in RAM to disk before exiting
+            opController.saveCitiesToFile(cityRecords, "cities.txt");
             // Exit program
-            std::cout << "Clearing-up and exiting." << std::endl;
+            std::cout << "[INFO] Clearing-up and exiting." << std::endl;
             exit(0);
         }
 

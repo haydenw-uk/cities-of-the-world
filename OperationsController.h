@@ -7,7 +7,7 @@
 
 class OperationsController {
 private:
-    int currentID;
+    int currentID = 0;
     std::vector<int> availableIDs;
 public:
     // Add a City
@@ -26,13 +26,11 @@ public:
 
     // Display all cities
     void displayAllCities(std::vector<City>& cityRecords);
-
     // Display a specific field of a City
-    void displaySpecificField(const std::vector<City>& cityRecords);
+    void displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID);
 
     // Load cities from a file
     void loadCitiesFromFile(std::vector<City>& cityRecords, const std::string& fileName);
-
     // Save cities to a file
     void saveCitiesToFile(const std::vector<City>& cityRecords, const std::string& fileName);
 

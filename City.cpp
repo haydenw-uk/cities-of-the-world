@@ -40,7 +40,6 @@ const Mayor& City::getMayor() const {
     return mayor;
 }
 
-
 // Setter Methods
 void City::setName(const std::string& a_name) {
     name = a_name;
