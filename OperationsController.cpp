@@ -108,8 +108,8 @@ void OperationsController::deleteCityByName(std::vector<City>& cityRecords, cons
             cityRecords.erase(item);
             cityFound = true;
             std::cout << "[INFO] SUCCESSFULLY DELETED City with name " << item->getName() << std::endl;
-            static std::vector<int> avaliableIDs;
-            avaliableIDs.push_back(item->getUniqueID());
+            static std::vector<int> availableIDs;
+            availableIDs.push_back(item->getUniqueID());
             break;
         }
     }
@@ -292,7 +292,7 @@ int OperationsController::searchCityByName(std::vector<City>& cityRecords, const
     for (const auto& city  : cityRecords) {
         if(city.getName() == cityName) {
             cityFound = true;
-            //TODO Before submission ensure printing is combined into one function such as 'DisplayCityInformation' for efficiency and stopping duplication
+
             std::cout << city.getName() << " (" << city.getUniqueID() << ")" << std::endl;
             std::cout << "\tCountry / US State: " << city.getUsStateOrCountry() << std::endl;
             std::cout << "\tBrief History / Description: " << city.getHistoryBrief() << std::endl;

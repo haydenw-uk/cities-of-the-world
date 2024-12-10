@@ -7,6 +7,9 @@
 class Coordinate {
 private:
     // Constants for calculations
+
+    // 'constexpr' used because it can be evaluated at
+    // compile time (quicker)
     static constexpr double PI = 3.14159265358979323846;
     static constexpr double EARTH_RADIUS = 6371.0; // Earth's radius in kilometers
 
