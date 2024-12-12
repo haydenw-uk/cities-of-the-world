@@ -75,15 +75,66 @@ void MenuManager::displayWarningMessageDataDeletion() {
     std::cout << "-- WARNING! THIS ACTION WILL DELETE DATA! --" <<std::endl;
 }
 
+// Input validation for string inputs
+bool validateStringInput(std::string& input, int minLength, int maxLength) {
+    // Trim leading and trailing whitespace
+    input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));
+    input.erase(input.find_last_not_of(" \t\n\r\f\v") + 1);
+
+    if (input.length() == 0) {
+        std::cout << "[INFO] Your input cannot be blank!" << std::endl;
+        return false;
+    }
+    // Check string length
+    if (input.length() < minLength) {
+        std::cout << "[INFO] Your input is too short." << std::endl;
+        return false;
+    }
+
+    if (input.length() > maxLength) {
+        std::cout << "[INFO] Your input is too long." << std::endl;
+        return false;
+    }
+}
+
+// Input validation for integer inputs
+bool validateIntInput(int& input, int minValue, int maxValue) {
+    // Clear any previous error states
+    std::cin.clear();
+
+    // Check if input is a valid integer
+    if (!(std::cin >> input)) {
+        std::cin.clear(); // Clear error flags
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+        std::cout << "Invalid input. Please enter a number." << std::endl;
+        return false;
+    }
+
+    // Check if input is within the specified range
+    if (input < minValue || input > maxValue) {
+        std::cout << "Input must be between " << minValue << " and " << maxValue << "." << std::endl;
+        return false;
+    }
+
+    // Clear any remaining characters in the input buffer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return true;
+}
+
+
 void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController) {
     int choice;
     std::cin >> choice;
+    // Validate user input not empty
+    //
+
+    // Validate user input
 
     switch (choice) {
         case 1: {
             // Add a new city
             opController.addCity(cityRecords);
-            opController.resolveDuplicatedCity(cityRecords);
+            opController.resolveDuplicatedCities(cityRecords);
             break;
         }
         case 2: {
@@ -200,34 +251,34 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                   opController.displaySpecificField(cityRecords, fieldID, sortDirection);
 
                   //opController.displaySpecificField(cityRecords, 5, "desc");
-              }
+                  break;
+                }
             }
-
-            break;
-            }
+        }
 
         case 5: {
             // Calculate the distance between two cities
             std::cout << "- CALCULATE DISTANCE BETWEEN CITIES -" << std::endl;
-
             std::cin.ignore();
+
             std::cout << "Enter first City Name: " <<std::endl;
 
             std::string cityNameOne;
             std::getline(std::cin, cityNameOne);
 
-            std::cin.ignore();
             std::cout << "Enter second City Name: " <<std::endl;
             std::string cityNameTwo;
             std::getline(std::cin, cityNameTwo);
 
-
-            //TODO Implement validation check to determine whether City name is shared with another City ... in which case ask user country, etc until sorted ...
-            std::cin.ignore();
             double distanceAnswer = opController.calculateDistanceBetweenCities(cityRecords, cityNameOne, cityNameTwo);
+            if (distanceAnswer == -1) {
+                break;
+            }
+
             std::cout << cityNameOne << " --> " << cityNameTwo << std::endl;
             std::cout << "The distance is approximately " << distanceAnswer << " km"<< std::endl;
             break;
+
         }
         case 6: {
             // Save current program's (RAM) cities to file
@@ -243,7 +294,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cout << "[INFO] Clearing-up and exiting." << std::endl;
             exit(0);
         }
-
     }
 }
 
@@ -251,7 +301,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
     std::cout << "*** WELCOME TO CITIES OF THE WORLD IN C++ ***\n" << std::endl;
     opController.loadCitiesFromFile(cityRecords, "cities.txt");
-    opController.resolveDuplicatedCity(cityRecords);
+    opController.resolveDuplicatedCities(cityRecords);
 
     while(true) {
         displayMainMenu();

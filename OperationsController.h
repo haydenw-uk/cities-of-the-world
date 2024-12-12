@@ -43,7 +43,7 @@ public:
     int allocateUniqueID();
     void releaseUniqueID(int idToRelease);
 
-    void resolveDuplicatedCity(std::vector<City>& cityRecords);
+    void resolveDuplicatedCities(std::vector<City>& cityRecords);
 
 
 };

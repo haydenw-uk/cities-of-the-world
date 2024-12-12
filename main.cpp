@@ -7,7 +7,6 @@
 #include "OperationsController.h"
 #include "MenuManager.h"
 
-
 // Cities of the World - Distance Calculation Program
 
 int main() {

@@ -59,7 +59,7 @@ void OperationsController::addCity(std::vector<City>& cityRecords) {
     std::getline(std::cin, cityMayorFullname);
 
     // Get City Mayor Residence Address
-    std::cout << "Enter City Mayor's Residence Address (e.g. Oxford Town Hall, St Aldate's): " << std::endl;
+    std::cout << "Enter City Mayor's Residence Address (e.g. Oxford Town Hall, St Aldates): " << std::endl;
     std::string cityMayorResidencesAddress;
     std::getline(std::cin, cityMayorResidencesAddress);
 
@@ -120,6 +120,7 @@ void OperationsController::deleteCityByName(std::vector<City>& cityRecords, cons
 
 // Update a City's information
 void OperationsController::updateCity(std::vector<City>& cityRecords, const int updateFieldID, const int cityToUpdateID) {
+    //TODO Implement input validation here
     switch(updateFieldID) {
         case 1: {
             // Update City Name field
@@ -439,7 +440,6 @@ void OperationsController::outputSpecificCityFieldSortedByField(const std::vecto
 
 }
 
-
 // Display a specific field of a City
 void OperationsController::displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID, const std::string& sortDirection) {
     if (cityRecords.empty()) {
@@ -447,7 +447,7 @@ void OperationsController::displaySpecificField(const std::vector<City>& cityRec
         return;
     }
 
-    // Copu cityRecords to temporary vector structure for sorting
+    // Copy cityRecords to temporary vector structure for sorting
     std::vector<City> sortedRecords = cityRecords;
 
     // Manual Bubble Sort algorithm
@@ -740,7 +740,7 @@ void OperationsController::loadCitiesFromFile(std::vector<City>& cityRecords, co
 
     std::ifstream loadFile(fileNameToLoad);
     if (!loadFile.is_open()) {
-        std::cerr << "Error: Could not open cities file " << fileNameToLoad << std::endl;
+        std::cerr << "File not found OR cannot be opened: " << fileNameToLoad << std::endl;
         return;
     }
 
@@ -799,18 +799,36 @@ void OperationsController::saveCitiesToFile(const std::vector<City>& cityRecords
     }
 }
 double OperationsController::calculateDistanceBetweenCities(std::vector<City>& cityRecords, const std::string& cityNameOne, const std::string& cityNameTwo) {
-    // Search and find first city from name
-    auto cityOneItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameOne](const City& city) {
-        return city.getName() == cityNameOne;
-    });
+    try {
+        // Search for the first city by name
+        auto cityOneItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameOne](const City& city) {
+            return city.getName() == cityNameOne;
+        });
 
-    // Search and find second city from name
-    auto cityTwoItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameTwo](const City& city) {
-        return city.getName() == cityNameTwo;
-    });
+        // Check if the first city was found
+        if (cityOneItem == cityRecords.end()) {
+            throw std::runtime_error("City not found: " + cityNameOne);
+        }
 
-    return cityOneItem->getCoordinates().calculateDistanceTo(cityTwoItem->getCoordinates());
+        // Search for the second city by name
+        auto cityTwoItem = std::find_if(cityRecords.begin(), cityRecords.end(), [&cityNameTwo](const City& city) {
+            return city.getName() == cityNameTwo;
+        });
+
+        // Check if the second city was found
+        if (cityTwoItem == cityRecords.end()) {
+            throw std::runtime_error("City not found: " + cityNameTwo);
+        }
+
+        // Calculate and return the distance
+        return cityOneItem->getCoordinates().calculateDistanceTo(cityTwoItem->getCoordinates());
+    } catch (const std::exception& e) {
+        // Log the error and return a default value
+        std::cerr << "Error calculating distance: " << e.what() << std::endl;
+        return -1.0; // Indicates an error
+    }
 }
+
 
 // ID-related methods for cities
 int OperationsController::allocateUniqueID() {
@@ -827,7 +845,7 @@ void OperationsController::releaseUniqueID(int idToRelease) {
     availableIDs.push_back(idToRelease);
 }
 
-void OperationsController::resolveDuplicatedCity(std::vector<City>& cityRecords) {
+void OperationsController::resolveDuplicatedCities(std::vector<City>& cityRecords) {
     // Iterate over city records
     for (size_t i = 0; i < cityRecords.size(); i++) {
         for (size_t j = i + 1; j < cityRecords.size(); j++) {
