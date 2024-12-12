@@ -14,6 +14,8 @@ public:
     void displayWarningMessageDataDeletion();
 
     bool validateIntInput(const std::string& input);
+    bool validateIntInputWithinRange(const std::string& input, int minLength, int maxLength);
+    bool validateCoordinateInput(const std::string& input, double minLength, double maxLength);
 
     void run(std::vector<City>& cityRecords, OperationsController& opController);
     void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);

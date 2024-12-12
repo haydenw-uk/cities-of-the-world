@@ -117,6 +117,48 @@ bool MenuManager::validateIntInput(const std::string& input) {
     return (*end == 0);
 }
 
+bool MenuManager::validateIntInputWithinRange(const std::string& input, int minLength, int maxLength) {
+    // Check if empty
+    if (input.empty()) {
+        return false;
+    }
+
+    if (input.length() < minLength || input.length() > maxLength) {
+        return false;
+    }
+
+    // Attempt to convert the string to a long integer
+    char* end = nullptr;
+    std::strtol(input.c_str(), &end, 10);
+
+    // Check if the entire string was successfully converted
+    return (*end == 0);
+}
+
+bool MenuManager::validateCoordinateInput(const std::string& input, double minLength, double maxLength) {
+    // Check if input is empty
+    if (input.empty()) {
+        std::cout << "[INFO] Your coordinate input cannot be blank!" << std::endl;
+        return false;
+    }
+    // Attempt to the convert the string to a double
+    double coordinate;
+    try {
+        coordinate = std::stod(input);
+    } catch (const std::invalid_argument& e) {
+        std::cout << "[INFO] Invalid coordinate format!" << std::endl;
+        return false;
+    }
+    // Check if the coordinate is within the valid range
+    if (coordinate < minLength || coordinate > maxLength) {
+        std::cout << "[INFO] Coordinate out of range." << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+
 
 void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController) {
     std::string input;
@@ -199,7 +241,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         std::cout << "-City Coordinates-\nEnter Latitude: " << std::endl;
         std::string latitudeInput;
         std::getline(std::cin, latitudeInput);
-        if (validateIntInput(latitudeInput)) {
+        if (validateCoordinateInput(latitudeInput, -90, 90)) {
             latitude = std::stod(latitudeInput);
             break;
         }
@@ -212,7 +254,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         std::cout << "Enter Longitude: " << std::endl;
         std::string longitudeInput;
         std::getline(std::cin, longitudeInput);
-        if (validateIntInput(longitudeInput)) {
+        if (validateCoordinateInput(longitudeInput, -180, 180)) {
             longitude = std::stod(longitudeInput);
             break;
         }
@@ -326,13 +368,25 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
                 int updateFieldID;
+                std::string input;
+
                 std::cout << "Enter your choice: " <<std::endl;
-                std::cin >> updateFieldID;
-                opController.updateCity(cityRecords, updateFieldID, currentCityID);
+                std::getline(std::cin, input);
+                if (validateIntInputWithinRange(input, 1, 9)) {
+                    try {
+                        updateFieldID = std::stoi(input);
+                    } catch (const std::invalid_argument& e) {
+                        std::cout << "Invalid input for update city fields!" << std::endl;
+                    }
+                    opController.updateCity(cityRecords, updateFieldID, currentCityID);
+                }
 
             }
             else if (updateCityFields == 'n') {
-                std::cout << "Invalid option. Going back to the main menu." << std::endl;
+                std::cout << "[INFO] OK..." << std::endl;
+            }
+            else {
+                std::cout << "[INFO] Invalid choice. Going back to main menu" << std::endl;
             }
             break;
         }
@@ -364,7 +418,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
                     opController.displaySpecificField(cityRecords, fieldID, sortDirection);
 
-                    //opController.displaySpecificField(cityRecords, 5, "desc");
                     break;
                 }
                 default: {
@@ -390,6 +443,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
             double distanceAnswer = opController.calculateDistanceBetweenCities(cityRecords, cityNameOne, cityNameTwo);
             if (distanceAnswer == -1) {
+                // City distance calculation error, return to main menu
                 break;
             }
 
