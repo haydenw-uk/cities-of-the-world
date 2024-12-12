@@ -4,7 +4,7 @@
 #include "OperationsController.h"
 
 class MenuManager {
-private:
+public:
     void displayMainMenu();
     void displaySearchOptionsMenu();
     void displayDeleteByOptionsMenu();
@@ -12,9 +12,15 @@ private:
     void displayMainDisplayCityOptionsMenu();
     void displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu();
     void displayWarningMessageDataDeletion();
-    void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
-public :
+
+    bool validateIntInput(const std::string& input);
+
     void run(std::vector<City>& cityRecords, OperationsController& opController);
+    void handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController);
+
+    bool validateStringInput(std::string& input, int minLength, int maxLength);
+
+
 };
 
 #endif //MENUMANAGER_H

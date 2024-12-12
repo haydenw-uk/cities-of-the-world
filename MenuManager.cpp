@@ -2,9 +2,8 @@
 #include <iostream>
 #include "OperationsController.h"
 
-
 /// -- Important Implementation Notes from Author --
-/// This class is solely for displaying menu options to the user, taking user input
+/// This class is solely for displaying menu options to the user, taking user input and related input validation
 /// Operations on data must not be implemented here, use OperationsController.
 
 void MenuManager::displayMainMenu() {
@@ -76,61 +75,54 @@ void MenuManager::displayWarningMessageDataDeletion() {
 }
 
 // Input validation for string inputs
-bool validateStringInput(std::string& input, int minLength, int maxLength) {
-    // Trim leading and trailing whitespace
-    input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));
-    input.erase(input.find_last_not_of(" \t\n\r\f\v") + 1);
+// bool validateStringInput(std::string& input, int minLength, int maxLength) {
+//     // Trim leading and trailing whitespace
+//     input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));
+//     input.erase(input.find_last_not_of(" \t\n\r\f\v") + 1);
+//
+//     if (input.empty()) {
+//         std::cout << "[INFO] Your input cannot be blank!" << std::endl;
+//         return false;
+//     }
+//     // Check string length
+//     if (input.length() < minLength) {
+//         std::cout << "[INFO] Your input is too short." << std::endl;
+//         return false;
+//     }
+//
+//     if (input.length() > maxLength) {
+//         std::cout << "[INFO] Your input is too long." << std::endl;
+//         return false;
+//     }
+// }
 
-    if (input.length() == 0) {
-        std::cout << "[INFO] Your input cannot be blank!" << std::endl;
-        return false;
-    }
-    // Check string length
-    if (input.length() < minLength) {
-        std::cout << "[INFO] Your input is too short." << std::endl;
-        return false;
-    }
-
-    if (input.length() > maxLength) {
-        std::cout << "[INFO] Your input is too long." << std::endl;
-        return false;
-    }
-}
-
-// Input validation for integer inputs
-bool validateIntInput(int& input, int minValue, int maxValue) {
-    // Clear any previous error states
-    std::cin.clear();
-
-    // Check if input is a valid integer
-    if (!(std::cin >> input)) {
-        std::cin.clear(); // Clear error flags
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
-        std::cout << "Invalid input. Please enter a number." << std::endl;
+bool MenuManager::validateIntInput(const std::string& input) {
+    // Check if the input string is empty
+    if (input.empty()) {
         return false;
     }
 
-    // Check if input is within the specified range
-    if (input < minValue || input > maxValue) {
-        std::cout << "Input must be between " << minValue << " and " << maxValue << "." << std::endl;
+    // Check if the first character is not a digit, minus sign, or plus sign
+    if (!isdigit(input[0]) && input[0] != '-' && input[0] != '+') {
         return false;
     }
 
-    // Clear any remaining characters in the input buffer
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    return true;
+    // Attempt to convert the string to a long integer
+    char* end = nullptr;
+    std::strtol(input.c_str(), &end, 10);
+
+    // Check if the entire string was successfully converted
+    return (*end == 0);
 }
 
 
 void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsController& opController) {
-    int choice;
-    std::cin >> choice;
-    // Validate user input not empty
-    //
+    std::string input;
+    std::cin >> input;
 
-    // Validate user input
-
-    switch (choice) {
+    if (validateIntInput(input)) {
+        int choice = std::stoi(input);
+             switch (choice) {
         case 1: {
             // Add a new city
             opController.addCity(cityRecords);
@@ -232,26 +224,30 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cin >> displayOptionID;
 
             switch(displayOptionID) {
-              case 1: {
-                  // Display all (stored) city information
-                  opController.displayAllCities(cityRecords);
-                  break;
-              }
+                case 1: {
+                    // Display all (stored) city information
+                    opController.displayAllCities(cityRecords);
+                    break;
+                }
                 case 2: {
-                  // Display specific cities fields menu
-                  int fieldID;
-                  std::string sortDirection;
+                    // Display specific cities fields menu
+                    int fieldID;
+                    std::string sortDirection;
 
-                  displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu();
-                  std::cin >> fieldID;
+                    displayDisplaySpecificCityFieldsAndSortTypeOptionsMenu();
+                    std::cin >> fieldID;
 
-                  std::cout << "Enter sort direction (asc or desc): ";
-                  std::cin >> sortDirection;
+                    std::cout << "Enter sort direction (asc or desc): ";
+                    std::cin >> sortDirection;
 
-                  opController.displaySpecificField(cityRecords, fieldID, sortDirection);
+                    opController.displaySpecificField(cityRecords, fieldID, sortDirection);
 
-                  //opController.displaySpecificField(cityRecords, 5, "desc");
-                  break;
+                    //opController.displaySpecificField(cityRecords, 5, "desc");
+                    break;
+                }
+                default: {
+                    std::cout << "[INFO] Invalid selection." << std::endl;
+                    break;
                 }
             }
         }
@@ -294,8 +290,22 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
             std::cout << "[INFO] Clearing-up and exiting." << std::endl;
             exit(0);
         }
+
+         default: {
+            std::cout << "[INFO] Invalid number entered. Try again or quit by entering 7.... " << std::endl;
+            break;
+         }
     }
+    }
+    else {
+        std::cout << "[INFO] Invalid input! Please enter a valid integer." << std::endl;
+    }
+
+
 }
+
+
+
 
 
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {
