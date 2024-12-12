@@ -425,6 +425,7 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
                     break;
                 }
             }
+            break;
         }
 
         case 5: {

@@ -15,7 +15,7 @@ public:
 
     // Delete a City
     void deleteCityByID(std::vector<City>& cityRecords, int id);
-    void deleteCityByName(std::vector<City>& cityRecords, const std::string name);
+    void deleteCityByName(std::vector<City>& cityRecords, const std::string& nameToDelete);
 
     // Update a City
     void updateCity(std::vector<City>& cityRecords, const int updateFieldID, const int cityID);
@@ -29,6 +29,7 @@ public:
     // Display a specific field of a City
     void displaySpecificField(const std::vector<City>& cityRecords, const int fieldToDisplayID, const std::string& sortDirection);
 
+    // Used for actual output of specific fields when records have been sorted by a field
     void outputSpecificCityFieldSortedByField(const std::vector<City>& cityRecords, int fieldDisplayID);
 
     // Load cities from a file
