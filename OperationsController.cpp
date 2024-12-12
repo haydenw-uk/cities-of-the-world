@@ -7,64 +7,7 @@
 #include "OperationsController.h"
 #include "City.h"
 
-void OperationsController::addCity(std::vector<City>& cityRecords) {
-    // Add a City
-    std::cout << "[INFO] Answer the following questions on the city to add." << std::endl;
-
-    // Clear any leftover input before starting
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    // Get City Name
-    std::cout << "Enter City Name (e.g. Oxford): " << std::endl;
-    std::string cityName;
-    std::getline(std::cin, cityName);
-
-    // Get City Short History
-    std::cout << "Enter Brief History / Description (e.g. Historical university city): " << std::endl;
-    std::string cityHistoryBrief;
-    std::getline(std::cin, cityHistoryBrief);
-
-    // Get City Population
-    int cityPopulation;
-    std::cout << "Enter City Population (e.g. 1000; in number form): " << std::endl;
-    std::cin >> cityPopulation;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
-
-    // Get City Year Recorded
-    int cityYearRecorded;
-    std::cout << "Enter current year (when City was added to program records): " << std::endl;
-    std::cin >> cityYearRecorded;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
-
-    // Get City US State / Country Recorded
-    std::cout << "Enter City Country OR State if located in the United States: " << std::endl;
-    std::string cityUsStateOrCountry;
-    std::getline(std::cin, cityUsStateOrCountry);
-
-    // Get City Coordinates
-    double latitude;
-    double longitude;
-    // Get latitude
-    std::cout << "-City Coordinates-\n" << "Enter latitude: " << std::endl;
-    std::cin >> latitude;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
-    // Get longitude
-    std::cout << "Enter longitude: " << std::endl;
-    std::cin >> longitude;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
-
-    // Get City Mayor Fullname
-    std::cout << "Enter City Mayor's Fullname (e.g. Mike Rowley): " << std::endl;
-    std::string cityMayorFullname;
-    std::getline(std::cin, cityMayorFullname);
-
-    // Get City Mayor Residence Address
-    std::cout << "Enter City Mayor's Residence Address (e.g. Oxford Town Hall, St Aldates): " << std::endl;
-    std::string cityMayorResidencesAddress;
-    std::getline(std::cin, cityMayorResidencesAddress);
-
-    // TODO: Implement validation of inputs before adding new city (not empty, correct data type, not too long)
-
+void OperationsController::addCity(std::vector<City>& cityRecords, double latitude, double longitude, const std::string& cityMayorFullname, const std::string& cityMayorResidencesAddress, const std::string& cityName, const std::string& cityHistoryBrief, int cityPopulation, int cityYearRecorded, std::string& cityUsStateOrCountry) {
     // Add the new city based on input
     std::cout << "Attempting to add: " << cityName << std::endl;
 

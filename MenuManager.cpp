@@ -74,28 +74,30 @@ void MenuManager::displayWarningMessageDataDeletion() {
     std::cout << "-- WARNING! THIS ACTION WILL DELETE DATA! --" <<std::endl;
 }
 
-// Input validation for string inputs
-// bool validateStringInput(std::string& input, int minLength, int maxLength) {
-//     // Trim leading and trailing whitespace
-//     input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));
-//     input.erase(input.find_last_not_of(" \t\n\r\f\v") + 1);
-//
-//     if (input.empty()) {
-//         std::cout << "[INFO] Your input cannot be blank!" << std::endl;
-//         return false;
-//     }
-//     // Check string length
-//     if (input.length() < minLength) {
-//         std::cout << "[INFO] Your input is too short." << std::endl;
-//         return false;
-//     }
-//
-//     if (input.length() > maxLength) {
-//         std::cout << "[INFO] Your input is too long." << std::endl;
-//         return false;
-//     }
-// }
+// Validate input as a string within the appropriate length
+bool MenuManager::validateStringInput(std::string& input, int minLength, int maxLength) {
+    // Trim leading and trailing whitespace
+    input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));
+    input.erase(input.find_last_not_of(" \t\n\r\f\v") + 1);
 
+    if (input.empty()) {
+        std::cout << "[INFO] Your input cannot be blank!" << std::endl;
+        return false;
+    }
+    // Check string length
+    if (input.length() < minLength) {
+        std::cout << "[INFO] Your input is too short." << std::endl;
+        return false;
+    }
+
+    if (input.length() > maxLength) {
+        std::cout << "[INFO] Your input is too long." << std::endl;
+        return false;
+    }
+    return true;
+}
+
+// Validate input as an int
 bool MenuManager::validateIntInput(const std::string& input) {
     // Check if the input string is empty
     if (input.empty()) {
@@ -124,11 +126,131 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
         int choice = std::stoi(input);
              switch (choice) {
         case 1: {
-            // Add a new city
-            opController.addCity(cityRecords);
-            opController.resolveDuplicatedCities(cityRecords);
+    // Add a new city
+    std::cout << "[INFO] Answer the following questions to add a new city." << std::endl;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // Get City Name
+    std::string cityName;
+    while (true) {
+        std::cout << "Enter City Name (e.g., Oxford): " << std::endl;
+        std::getline(std::cin, cityName);
+        if (validateStringInput(cityName, 2, 50)) {
             break;
         }
+        std::cout << "[INFO] Invalid input for City Name! Please try again." << std::endl;
+    }
+
+    // Get Brief History/Description
+    std::string cityHistoryBrief;
+    while (true) {
+        std::cout << "Enter Brief History/Description (e.g., Historical university city): " << std::endl;
+        std::getline(std::cin, cityHistoryBrief);
+        if (validateStringInput(cityHistoryBrief, 5, 200)) {
+            break;
+        }
+        std::cout << "[INFO] Invalid input for City History! Please try again." << std::endl;
+    }
+
+    // Get City Population
+    int cityPopulation;
+    while (true) {
+        std::cout << "Enter City Population (e.g., 1000): " << std::endl;
+        std::string cityPopulationInput;
+        std::getline(std::cin, cityPopulationInput);
+        if (validateIntInput(cityPopulationInput)) {
+            cityPopulation = std::stoi(cityPopulationInput);
+            if (cityPopulation > 0) {
+                break;
+            }
+        }
+        std::cout << "[INFO] Invalid input for City Population! Please try again." << std::endl;
+    }
+
+    // Get Year Recorded
+    int cityYearRecorded;
+    while (true) {
+        std::cout << "Enter the Year Recorded (e.g., 2024): " << std::endl;
+        std::string cityYearRecordedInput;
+        std::getline(std::cin, cityYearRecordedInput);
+        if (validateIntInput(cityYearRecordedInput)) {
+            cityYearRecorded = std::stoi(cityYearRecordedInput);
+            if (cityYearRecorded >= 0) {
+                break;
+            }
+        }
+        std::cout << "[INFO] Invalid input for Year Recorded! Please try again." << std::endl;
+    }
+
+    // Get City Country/State
+    std::string cityUsStateOrCountry;
+    while (true) {
+        std::cout << "Enter City Country or US State (e.g., United Kingdom): " << std::endl;
+        std::getline(std::cin, cityUsStateOrCountry);
+        if (validateStringInput(cityUsStateOrCountry, 3, 50)) {
+            break;
+        }
+        std::cout << "[INFO] Invalid input for City Country/State! Please try again." << std::endl;
+    }
+
+    // Get Latitude
+    double latitude;
+    while (true) {
+        std::cout << "-City Coordinates-\nEnter Latitude: " << std::endl;
+        std::string latitudeInput;
+        std::getline(std::cin, latitudeInput);
+        if (validateIntInput(latitudeInput)) {
+            latitude = std::stod(latitudeInput);
+            break;
+        }
+        std::cout << "[INFO] Invalid input for Latitude! Please try again." << std::endl;
+    }
+
+    // Get Longitude
+    double longitude;
+    while (true) {
+        std::cout << "Enter Longitude: " << std::endl;
+        std::string longitudeInput;
+        std::getline(std::cin, longitudeInput);
+        if (validateIntInput(longitudeInput)) {
+            longitude = std::stod(longitudeInput);
+            break;
+        }
+        std::cout << "[INFO] Invalid input for Longitude! Please try again." << std::endl;
+    }
+
+    // Get Mayor's Full Name
+    std::string cityMayorFullname;
+    while (true) {
+        std::cout << "Enter Mayor's Full Name (e.g., Mike Rowley): " << std::endl;
+        std::getline(std::cin, cityMayorFullname);
+        if (validateStringInput(cityMayorFullname, 3, 50)) {
+            break;
+        }
+        std::cout << "[INFO] Invalid input for Mayor's Name! Please try again." << std::endl;
+    }
+
+    // Get Mayor's Residence Address
+    std::string cityMayorResidencesAddress;
+    while (true) {
+        std::cout << "Enter Mayor's Residence Address (e.g., Oxford Town Hall): " << std::endl;
+        std::getline(std::cin, cityMayorResidencesAddress);
+        if (validateStringInput(cityMayorResidencesAddress, 5, 100)) {
+            break;
+        }
+        std::cout << "[INFO] Invalid input for Mayor's Residence Address! Please try again." << std::endl;
+    }
+
+    // Add the validated city to the records
+    opController.addCity(cityRecords, latitude, longitude, cityMayorFullname, cityMayorResidencesAddress,
+                          cityName, cityHistoryBrief, cityPopulation, cityYearRecorded, cityUsStateOrCountry);
+
+    // Resolve duplicates if any
+    opController.resolveDuplicatedCities(cityRecords);
+
+    std::cout << "[INFO] City successfully added!" << std::endl;
+    break;
+}
         case 2: {
             // Delete a city
             displayDeleteByOptionsMenu();
@@ -303,9 +425,6 @@ void MenuManager::handleUserChoice(std::vector<City>& cityRecords, OperationsCon
 
 
 }
-
-
-
 
 
 void MenuManager::run(std::vector<City>& cityRecords, OperationsController& opController) {

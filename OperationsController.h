@@ -11,7 +11,7 @@ private:
     std::vector<int> availableIDs;
 public:
     // Add a City
-    void addCity(std::vector<City>& cityRecords);
+    void addCity(std::vector<City>& cityRecords, double latitude, double longitude, const std::string& cityMayorFullname, const std::string& cityMayorResidencesAddress, const std::string& cityName, const std::string& cityHistoryBrief, int cityPopulation, int cityYearRecorded, std::string& cityUsStateOrCountry);
 
     // Delete a City
     void deleteCityByID(std::vector<City>& cityRecords, int id);
